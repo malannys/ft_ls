@@ -46,3 +46,22 @@ int		main(int ac, char **av)
 	}
 	return (0);
 }
+
+void	sort_lex(t_node **head, t_node *node)
+{
+	t_node	*tmp;
+	t_node *swap;
+
+	node->next = *head;
+	*head = node;
+	tmp = *head;
+	while (tmp->next && ft_strcmp(tmp->name, tmp->next->name) > 0)
+	{
+		swap = tmp->next;
+		tmp->next = swap->next;
+		swap->next = tmp;
+		if (tmp == *head)
+			*head = swap;
+		tmp = tmp->next;
+	}
+}

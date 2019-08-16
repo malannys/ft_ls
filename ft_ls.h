@@ -23,14 +23,65 @@
 //#include <attr/xattr.h>
 #include <time.h>
 
+# define FLAG_ONE 0x1
+# define FLAG_AA 0x2
+# define FLAG_A 0x4
+# define FLAG_BB 0x8
+# define FLAG_CC 0x10
+# define FLAG_C 0x20 // sort by time of file status changed for -t or -l
+# define FLAG_D 0x40
+# define FLAG_E 0x80
+# define FLAG_FF 0x100
+# define FLAG_F 0x200
+# define FLAG_GG 0x400
+# define FLAG_G 0x800
+# define FLAG_I 0x1000
+# define FLAG_L 0x2000
+# define FLAG_M 0x4000
+# define FLAG_N 0x8000
+# define FLAG_O 0x10000
+# define FLAG_P 0x20000
+# define FLAG_Q 0x40000
+# define FLAG_RR 0x80000
+# define FLAG_R 0x100000 //reverse sorting
+# define FLAG_SS 0x200000 //sort by size (largest first)
+# define FLAG_TT 0x400000
+# define FLAG_T 0x800000 //sort by time modified (recent first) before lexicographical
+# define FLAG_U 0x1000000 //sort by time of last access for -t or -l
+# define FLAG_UU 0x2000000 //sort by time of creation for -t or -l
+# define FLAG_V 0x4000000
+# define FLAG_W 0x8000000
+# define FLAG_EA 0x10000000
+
+# define IS_MAX(a, b) (a > b ? 1 : 0)
+# define IS_MIN(a, b) (a < b ? 1 : 0)
+# define IS_EQUAL(a, b) (a == b ? 1 : 0)
+
 typedef struct	s_node
 {
-	char			path[1024];
+	char			name[256]; // 1024? lstat
 	struct stat		stats;
 	struct s_node	*next;
 }				t_node;
 
 int		opt_parser(int ac, char **av, int *options); // options parser
+
 void	ft_ls(char *av, int options); //
+int		read_dir(char *path, int *options);
+int		dir_recursive(char *path, t_node **head, int *options);
+char	*add_path(char *path, char *name);
+
+int		create_node(t_node **head, struct dirent *dp, int *options);
+void	push_back(t_node **head, t_node *node);
+void	push_front(t_node **head, t_node *node);
+void	free_list(t_node **head);
+
+void	insert_and_sort(t_node **head, t_node *node, int *options);
+int		cmp(t_node *node1, t_node *node2, int *options);
+int		cmp_lex(char *s1, char *s2, int rev);
+int		cmp_time(t_time a, t_time b, char **name, int rev);
+int		cmp_size(off_t a, off_t b, int rev);
+
+void	print(char	*path, t_node **head, int *options);
 
 #endif

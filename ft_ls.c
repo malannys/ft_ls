@@ -13,47 +13,111 @@
 #include "ft_ls.h"
 #include "libft.h"
 
-void	dir_recursive(/*path*/)
+/*void	insert_and_sort(t_node **head, t_node *node, int *options)
 {
-	//open
-	//while readdir
-	//	create list
-	//sort list
-	//display list
-	//while (list) {is_dir ? dir_recursive() : continue}
-	//clean list
+	t_node	*tmp;
+	int		(*sort_time)(options);
+
+	tmp = *head;
+	if (FLAG_FF && *options)
+	{
+		while (tmp && tmp->next)
+			tmp = tmp->next;
+		tmp->next = node;
+	}
+	else if (FLAG_SS && *options)
+		rev ? sort(head, node, sort_size, 1) : sort(head, node, sort_size, 0);
+	else if ((FLAG_T + FLAG_C + FLAG_U + FLAG_UU) && *options)
+	{
+		sort_time = time_sort_func(options);
+		rev ? sort(head, node, time_sort_func(options), 1) : \\
+			sort(sort(head, node, time_sort_func(options), 1));
+	}
+	else
+		rev ? sort(head, node, sort_lex, 1) : sort(head, node, sort_lex, 0);
+}*/
+
+char	*add_path(char *path, char *name)
+{
+	size_t	len1;
+	size_t	len2;
+	size_t	i;
+	char	*new_path;
+
+	i = 0;
+	len1 = ft_strlen(path);
+	len2 = ft_strlen(name);
+	if (!(new_path = (char *)malloc(len1 + len2 + 2)))
+		// error && display error && return -1
+	while (i < len1)
+		*(new_path + i) = *(path + i++);
+	*(new_path + i) = "/";
+	i = 0;
+	while (i < len2)
+		*(new_path + i + len1 + 1) = *(name + i++);
+	*(new_path + i) = "\0";
+	return (new_path);
 }
 
-void	ft_ls(char *av, int options)
+int		dir_recursive(char *path, t_node **head, int *options)
+{
+	t_node	*node;
+	char	*new_path;
+	
+	node = *head;
+	while (node)
+	{
+		if (ft_strcmp(".", node->name) && ft_strcmp("..", node->name) \\
+			&& S_ISDIR(node->stats.st_mode))
+		{
+			if (!(new_path = add_path(path, node->name)))
+				// error && display error && free && return -1
+			if (read_dir(new_path, options) == -1) //concat path, free???
+				// error && display error? && free && return -1
+		}
+		node = node->next;
+	}
+}
+
+int		read_dir(char *path, int *options)
+{
+	DIR				*dirp;
+	struct dirent	*dp;
+	t_node			*head;
+
+	head = NULL;
+	errno = 0;
+	if (!(dirp = opendir(path)))
+		// error && display error && return -1
+	while ((dp = readdir(dirp)))
+		if (create_node(&head, dp, options) == -1) // sorting and freeing (???) if fails are also here
+			// (EXIT????) free **head and return -1
+	//if (errno)
+	//
+	closedir(dirp);
+	print(path, head, options);
+	if (FLAG_RR & *options)
+		if ((dir_recursive(path, head, options)) == -1)
+			// error && return -1
+	free_list(&head);
+	return (0);
+}
+
+int		ft_ls(char *av, int options)
 {
 	t_node		*node;
 
 	if (!(node = (t_node *)malloc(sizeof(t_node))))
-		//error && return
+		//error && display error && EXIT
 	if (lstat(av, &node->stats) == -1)
-	{
-		//error && return
-	}
-	//write path=av
-	//if dir => dir_recursive
-	//else   => display
-}
-
-int		main(int ac, char **av)
-{
-	int		options;
-	int		i;
-
-	options = 0;
-	i = opt_parser(ac, av, &options);
-	if (i == ac)
-		ft_ls(".", options);
+		//error && display error && return -1
+	node->name = strcpy(node->name, av);
+	node->next = NULL;
+	if (S_ISDIR(node->stats.st_mode))
+		if (read_dir(av, &options) == -1) //to exit or not to exit?
+			//return -1
 	else
-	{
-		while (i < ac)
-		{
-			ft_ls(av[i++], options);
-		}
-	}
+		display(av, node, &options);
+	free_list(&node);
 	return (0);
 }
