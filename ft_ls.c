@@ -55,7 +55,7 @@ char	*add_path(char *path, char *name)
 	i = 0;
 	while (i < len2)
 		*(new_path + i + len1 + 1) = *(name + i++);
-	*(new_path + i) = "\0";
+	*(new_path + i + len1 + 1) = "\0";
 	return (new_path);
 }
 
