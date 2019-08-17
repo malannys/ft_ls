@@ -13,30 +13,6 @@
 #include "ft_ls.h"
 #include "libft.h"
 
-/*void	insert_and_sort(t_node **head, t_node *node, int *options)
-{
-	t_node	*tmp;
-	int		(*sort_time)(options);
-
-	tmp = *head;
-	if (FLAG_FF && *options)
-	{
-		while (tmp && tmp->next)
-			tmp = tmp->next;
-		tmp->next = node;
-	}
-	else if (FLAG_SS && *options)
-		rev ? sort(head, node, sort_size, 1) : sort(head, node, sort_size, 0);
-	else if ((FLAG_T + FLAG_C + FLAG_U + FLAG_UU) && *options)
-	{
-		sort_time = time_sort_func(options);
-		rev ? sort(head, node, time_sort_func(options), 1) : \\
-			sort(sort(head, node, time_sort_func(options), 1));
-	}
-	else
-		rev ? sort(head, node, sort_lex, 1) : sort(head, node, sort_lex, 0);
-}*/
-
 char	*add_path(char *path, char *name)
 {
 	size_t	len1;
@@ -45,6 +21,7 @@ char	*add_path(char *path, char *name)
 	char	*new_path;
 
 	i = 0;
+	errno = 0;
 	len1 = ft_strlen(path);
 	len2 = ft_strlen(name);
 	if (!(new_path = (char *)malloc(len1 + len2 + 2)))
@@ -63,7 +40,7 @@ int		dir_recursive(char *path, t_node **head, int *options)
 {
 	t_node	*node;
 	char	*new_path;
-	
+
 	node = *head;
 	while (node)
 	{
@@ -88,6 +65,7 @@ int		read_dir(char *path, int *options)
 	head = NULL;
 	errno = 0;
 	if (!(dirp = opendir(path)))
+		error();
 		// error && display error && return -1
 	while ((dp = readdir(dirp)))
 		if (create_node(&head, dp, options) == -1) // sorting and freeing (???) if fails are also here
@@ -107,9 +85,12 @@ int		ft_ls(char *av, int options)
 {
 	t_node		*node;
 
+	errno = 0;
 	if (!(node = (t_node *)malloc(sizeof(t_node))))
+		error();
 		//error && display error && EXIT
 	if (lstat(av, &node->stats) == -1)
+		error();
 		//error && display error && return -1
 	node->name = strcpy(node->name, av);
 	node->next = NULL;

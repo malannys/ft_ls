@@ -13,15 +13,17 @@
 #ifndef FT_LS_H
 # define FT_LS_H
 
-#include <stdlib.h>
-#include <dirent.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <pwd.h>
-#include <grp.h>
-//#include <attr/xattr.h>
-#include <time.h>
+# include <stdio.h>
+# include <errno.h>
+# include <stdlib.h>
+# include <dirent.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <unistd.h>
+# include <pwd.h>
+# include <grp.h>
+//# include <attr/xattr.h>
+# include <time.h>
 
 # define FLAG_ONE 0x1
 # define FLAG_AA 0x2
@@ -79,7 +81,7 @@ void	free_list(t_node **head);
 void	insert_and_sort(t_node **head, t_node *node, int *options);
 int		cmp(t_node *node1, t_node *node2, int *options);
 int		cmp_lex(char *s1, char *s2, int rev);
-int		cmp_time(t_time a, t_time b, char **name, int rev);
+int		cmp_time(time_t a, time_t b, char **name, int rev);
 int		cmp_size(off_t a, off_t b, int rev);
 
 void	print(char	*path, t_node **head, int *options);
