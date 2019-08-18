@@ -25,6 +25,19 @@
 //# include <attr/xattr.h>
 # include <time.h>
 
+#include "libft.h"
+
+# define MALLOC_FAILURE 0x1 // exit?
+# define LSTAT_FAILURE 0x2
+# define OPENDIR_FAILURE 0x4
+# define READDIR_FAILURE 0x8
+# define CLOSEDIR_FAILURE 0x10
+# define GETPWUID_FAILURE 0x20
+# define GETGRGID_FAILURE 0x40
+# define LISTXATTR_FAILURE 0x80
+# define GETXATTR_FAILURE 0x100
+# define READLINK_FAILURE 0x200
+
 # define FLAG_ONE 0x1
 # define FLAG_AA 0x2
 # define FLAG_A 0x4
@@ -55,10 +68,6 @@
 # define FLAG_W 0x8000000
 # define FLAG_EA 0x10000000
 
-# define IS_MAX(a, b) (a > b ? 1 : 0)
-# define IS_MIN(a, b) (a < b ? 1 : 0)
-# define IS_EQUAL(a, b) (a == b ? 1 : 0)
-
 typedef struct	s_node
 {
 	char			name[256]; // 1024? lstat
@@ -68,12 +77,12 @@ typedef struct	s_node
 
 int		opt_parser(int ac, char **av, int *options); // options parser
 
-void	ft_ls(char *av, int options); //
-int		read_dir(char *path, int *options);
-int		dir_recursive(char *path, t_node **head, int *options);
+void	read_av(char *av, int options); //
+void	read_dir(char *path, int *options);
+void	dir_recursive(char *path, t_node **head, int *options);
 char	*add_path(char *path, char *name);
 
-int		create_node(t_node **head, struct dirent *dp, int *options);
+int		add_node(char *path, t_node **head, struct dirent *dp, int *options);
 void	push_back(t_node **head, t_node *node);
 void	push_front(t_node **head, t_node *node);
 void	free_list(t_node **head);
@@ -83,6 +92,8 @@ int		cmp(t_node *node1, t_node *node2, int *options);
 int		cmp_lex(char *s1, char *s2, int rev);
 int		cmp_time(time_t a, time_t b, char **name, int rev);
 int		cmp_size(off_t a, off_t b, int rev);
+
+int		error(int error_status, int errno, char *name);
 
 void	print(char	*path, t_node **head, int *options);
 

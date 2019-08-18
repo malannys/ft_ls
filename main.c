@@ -25,7 +25,7 @@ int		main(int ac, char **av)
 	{
 		while (i < ac)
 		{
-			ft_ls(av[i++], options);
+			read_av(av[i++], options);
 		}
 	}
 	return (0);

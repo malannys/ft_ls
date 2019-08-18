@@ -25,22 +25,25 @@ void	push_back(t_node **head, t_node *node)
 void	push_front(t_node **head, t_node *node)
 {
 	if (*head)
-		node->next = *head->next;
+		node->next = (*head)->next;
 	*head = node;
 }
 
-/* 
-** if malloc fails => return -1, if lstat fails => return 1, else 0
-*/
-int		create_node(t_node **head, struct dirent *dp, int *options)
+int		add_node(char *path, t_node **head, struct dirent *dp, int *options)
 {
 	t_node	*node;
+	char	*new_path;
 
 	if (!(node = (t_node *)malloc(sizeof(t_node))))
-		//error && display error && freeee && return -1
-	if (lstat(av, &node->stats) == -1)
-		//error && display error && free(node) && return 1
-	node->name = strcpy(node->name, dp->d_name);
+		error(MALLOC_FAILURE, errno, NULL);
+	if (!(new_path = add_path(path, dp->d_dname)))
+		error(MALLOC_FAILURE, errno, NULL);
+	if (lstat(new_path, &node->stats) == -1)
+	{
+		error(LSTAT_FAILURE, errno, node->name);
+		return (-1);
+	}
+	ft_strcpy(node->name, dp->d_name);
 	node->next = NULL;
 	insert_and_sort(head, node, options);
 	return (0);

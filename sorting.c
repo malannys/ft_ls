@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-#include "libft.h"
 
 /*
 ** Sort by lexicographic order
@@ -30,13 +29,13 @@ int		cmp_lex(char *s1, char *s2, int rev)
 ** -u: last access
 ** -U: file creation
 */
-int		cmp_time(t_time a, t_time b, char **name, int rev)
+int		cmp_time(time_t a, time_t b, char **name, int rev)
 {
-	if (IS_EQUAL(a, b))
+	if (a == b)
 		return (cmp_lex(name[1], name[2], rev));
 	if (rev)
-		return (IS_MAX(a, b) ? 1 : 0);
-	return (IS_MIN(a, b) ? 1 : 0);
+		return (a > b ? 1 : 0);
+	return (a < b ? 1 : 0);
 }
 
 /*
@@ -44,11 +43,11 @@ int		cmp_time(t_time a, t_time b, char **name, int rev)
 */
 int		cmp_size(off_t a, off_t b, int rev)
 {
-	if (IS_EQUAL(a, b))
+	if (a == b)
 		return (cmp_lex(name[1], name[2], rev));
 	if (rev)
-		return (IS_MAX(a, b) ? 1 : 0);
-	return (IS_MIN(a, b) ? 1 : 0);
+		return (a > b ? 1 : 0);
+	return (a < b ? 1 : 0);
 }
 
 int		cmp(t_node *node1, t_node *node2, int *options)
@@ -69,7 +68,7 @@ int		cmp(t_node *node1, t_node *node2, int *options)
 	else if (FLAG_U & *options)
 		return (cmp_time(node1->st_atime, node2->st_atime, name, rev));
 	else if (FLAG_UU & *options)
-		return (cmp_time(node1->st_birthtime, node2->st_birthtime, name, rev)); // ????? crtime or birthtime
+		return (cmp_time(node1->st_birthtime, node2->st_birthtime, name, rev));
 	else
 		return (cmp_lex(node1->name, node2->name, rev));
 }

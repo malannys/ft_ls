@@ -11,36 +11,31 @@
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-#include "libft.h"
 
 char	*add_path(char *path, char *name)
 {
 	size_t	len1;
 	size_t	len2;
-	size_t	i;
 	char	*new_path;
 
-	i = 0;
 	errno = 0;
 	len1 = ft_strlen(path);
 	len2 = ft_strlen(name);
 	if (!(new_path = (char *)malloc(len1 + len2 + 2)))
-		// error && display error && return -1
-	while (i < len1)
-		*(new_path + i) = *(path + i++);
-	*(new_path + i) = "/";
-	i = 0;
-	while (i < len2)
-		*(new_path + i + len1 + 1) = *(name + i++);
-	*(new_path + i + len1 + 1) = "\0";
+		error(MALLOC_FAILURE, error, NULL);
+	ft_memcpy(new_path, path, len1);
+	*(new_path + len1) = '/';
+	ft_memcpy(new_path + len1 + 1, path, len2);
+	*(new_path + len1 + len2 + 1) = '\0';
 	return (new_path);
 }
 
-int		dir_recursive(char *path, t_node **head, int *options)
+void	dir_recursive(char *path, t_node **head, int *options)
 {
 	t_node	*node;
 	char	*new_path;
 
+	errno = 0;
 	node = *head;
 	while (node)
 	{
@@ -48,15 +43,15 @@ int		dir_recursive(char *path, t_node **head, int *options)
 			&& S_ISDIR(node->stats.st_mode))
 		{
 			if (!(new_path = add_path(path, node->name)))
-				// error && display error && free && return -1
-			if (read_dir(new_path, options) == -1) //concat path, free???
-				// error && display error? && free && return -1
+				error(MALLOC_FAILURE, errno, NULL);
+			read_dir(new_path, options);
+			free(new_path);
 		}
 		node = node->next;
 	}
 }
 
-int		read_dir(char *path, int *options)
+void	read_dir(char *path, int *options)
 {
 	DIR				*dirp;
 	struct dirent	*dp;
@@ -65,40 +60,43 @@ int		read_dir(char *path, int *options)
 	head = NULL;
 	errno = 0;
 	if (!(dirp = opendir(path)))
-		error();
-		// error && display error && return -1
+	{
+		error(OPENDIR_FAILURE, errno, path);
+		return ;
+	}
 	while ((dp = readdir(dirp)))
-		if (create_node(&head, dp, options) == -1) // sorting and freeing (???) if fails are also here
-			// (EXIT????) free **head and return -1
-	//if (errno)
-	//
+		if (add_node(path, &head, dp, options) == -1)
+			continue;
+	if (errno)
+		error(READDIR_FAILURE, errno, NULL);
 	closedir(dirp);
 	print(path, head, options);
 	if (FLAG_RR & *options)
-		if ((dir_recursive(path, head, options)) == -1)
-			// error && return -1
+		dir_recursive(path, head, options);
 	free_list(&head);
-	return (0);
 }
 
-int		ft_ls(char *av, int options)
+/*
+** if av - file => print stat
+** if av - dir => read_dir()
+*/
+void	read_av(char *av, int options)
 {
 	t_node		*node;
 
 	errno = 0;
 	if (!(node = (t_node *)malloc(sizeof(t_node))))
-		error();
-		//error && display error && EXIT
+		error(MALLOC_FAILURE, errno, NULL);
 	if (lstat(av, &node->stats) == -1)
-		error();
-		//error && display error && return -1
+	{
+		error(LSTAT_FAILURE, errno, NULL);
+		return ;
+	}
 	node->name = strcpy(node->name, av);
 	node->next = NULL;
 	if (S_ISDIR(node->stats.st_mode))
-		if (read_dir(av, &options) == -1) //to exit or not to exit?
-			//return -1
+		read_dir(av, &options);
 	else
-		display(av, node, &options);
+		print(av, node, &options);
 	free_list(&node);
-	return (0);
 }
