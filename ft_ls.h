@@ -52,12 +52,12 @@
 # define FLAG_G 0x800
 # define FLAG_I 0x1000
 # define FLAG_L 0x2000
-# define FLAG_M 0x4000
+# define FLAG_M 0x4000 //output with commas
 # define FLAG_N 0x8000
 # define FLAG_O 0x10000
 # define FLAG_P 0x20000
 # define FLAG_Q 0x40000
-# define FLAG_RR 0x80000
+# define FLAG_RR 0x80000 //recursive search
 # define FLAG_R 0x100000 //reverse sorting
 # define FLAG_SS 0x200000 //sort by size (largest first)
 # define FLAG_TT 0x400000
@@ -91,10 +91,10 @@ void	insert_and_sort(t_node **head, t_node *node, int *options);
 int		cmp(t_node *node1, t_node *node2, int *options);
 int		cmp_lex(char *s1, char *s2, int rev);
 int		cmp_time(time_t a, time_t b, char **name, int rev);
-int		cmp_size(off_t a, off_t b, int rev);
+int		cmp_size(off_t a, off_t b, char **name, int rev);
 
 int		error(int error_status, int errno, char *name);
 
-void	print(char	*path, t_node **head, int *options);
+void	print(char *path, t_node *head, int *options);
 
 #endif
