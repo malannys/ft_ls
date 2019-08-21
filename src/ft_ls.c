@@ -6,7 +6,7 @@
 /*   By: malannys <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 19:09:50 by malannys          #+#    #+#             */
-/*   Updated: 2019/08/17 18:51:53 by malannys         ###   ########.fr       */
+/*   Updated: 2019/08/21 19:28:49 by malannys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*add_path(char *path, char *name)
 	len1 = ft_strlen(path);
 	len2 = ft_strlen(name);
 	if (!(new_path = (char *)malloc(len1 + len2 + 2)))
-		error(MALLOC_FAILURE, error, NULL);
+		error(MALLOC_FAILURE, NULL);
 	ft_memcpy(new_path, path, len1);
 	*(new_path + len1) = '/';
 	ft_memcpy(new_path + len1 + 1, path, len2);
@@ -39,11 +39,11 @@ void	dir_recursive(char *path, t_node **head, int *options)
 	node = *head;
 	while (node)
 	{
-		if (ft_strcmp(".", node->name) && ft_strcmp("..", node->name) \\
+		if (ft_strcmp(".", node->name) && ft_strcmp("..", node->name) \
 			&& S_ISDIR(node->stats.st_mode))
 		{
 			if (!(new_path = add_path(path, node->name)))
-				error(MALLOC_FAILURE, errno, NULL);
+				error(MALLOC_FAILURE, NULL);
 			read_dir(new_path, options);
 			free(new_path);
 		}
@@ -61,18 +61,18 @@ void	read_dir(char *path, int *options)
 	errno = 0;
 	if (!(dirp = opendir(path)))
 	{
-		error(OPENDIR_FAILURE, errno, path);
+		error(OPENDIR_FAILURE, path);
 		return ;
 	}
 	while ((dp = readdir(dirp)))
 		if (add_node(path, &head, dp, options) == -1)
 			continue;
 	if (errno)
-		error(READDIR_FAILURE, errno, NULL);
+		error(READDIR_FAILURE, NULL);
 	closedir(dirp);
 	print(path, head, options);
 	if (FLAG_RR & *options)
-		dir_recursive(path, head, options);
+		dir_recursive(path, &head, options);
 	free_list(&head);
 }
 
@@ -86,13 +86,13 @@ void	read_av(char *av, int options)
 
 	errno = 0;
 	if (!(node = (t_node *)malloc(sizeof(t_node))))
-		error(MALLOC_FAILURE, errno, NULL);
+		error(MALLOC_FAILURE, NULL);
 	if (lstat(av, &node->stats) == -1)
 	{
-		error(LSTAT_FAILURE, errno, NULL);
+		error(LSTAT_FAILURE, NULL);
 		return ;
 	}
-	node->name = strcpy(node->name, av);
+	strcpy(node->name, av);
 	node->next = NULL;
 	if (S_ISDIR(node->stats.st_mode))
 		read_dir(av, &options);

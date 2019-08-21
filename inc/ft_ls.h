@@ -6,7 +6,7 @@
 /*   By: malannys <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 19:16:46 by malannys          #+#    #+#             */
-/*   Updated: 2019/08/11 19:20:08 by malannys         ###   ########.fr       */
+/*   Updated: 2019/08/21 19:27:14 by malannys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@
 # define FLAG_G 0x800
 # define FLAG_I 0x1000
 # define FLAG_L 0x2000
-# define FLAG_M 0x4000 //output with commas
+# define FLAG_M 0x4000
 # define FLAG_N 0x8000
 # define FLAG_O 0x10000
 # define FLAG_P 0x20000
@@ -93,7 +93,7 @@ int		cmp_lex(char *s1, char *s2, int rev);
 int		cmp_time(time_t a, time_t b, char **name, int rev);
 int		cmp_size(off_t a, off_t b, char **name, int rev);
 
-int		error(int error_status, int errno, char *name);
+int		error(int error_status, char *name);
 
 void	print(char *path, t_node *head, int *options);
 

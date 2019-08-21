@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: malannys <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/17 15:18:42 by malannys          #+#    #+#             */
-/*   Updated: 2019/08/17 15:19:04 by malannys         ###   ########.fr       */
+/*   Created: 2019/08/17 15:19:37 by malannys          #+#    #+#             */
+/*   Updated: 2019/08/21 19:35:56 by malannys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int		main(int ac, char **av)
+void	print(char *path, t_node *head, int *options)
 {
-	int		options;
-	int		i;
+	t_node	*tmp;
 
-	options = 0;
-	i = opt_parser(ac, av, &options);
-	if (i == ac)
-		ft_ls(".", options);
-	else
+	tmp = head;
+	if (FLAG_ONE & *options)
 	{
-		while (i < ac)
+		ft_putstr_fd(path, 1);
+		write(1, ":\n", 3);
+		while (tmp)
 		{
-			read_av(av[i++], options);
+			ft_putendl_fd(tmp->name, 1);
+			tmp = tmp->next;
 		}
+		write(1, "\n", 2);
 	}
-	return (0);
 }
