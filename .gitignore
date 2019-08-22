@@ -5,3 +5,4 @@ a.out
 .*DS_Store
 *.json
 .vscode
+.DS_Store
