@@ -17,8 +17,8 @@ int		main(int ac, char **av)
 	int		options;
 	int		i;
 
-	options = 1;
-	i = 2; /*opt_parser(ac, av, &options);*/
+	options = FLAG_RR | FLAG_ONE;
+	i = 1; /*opt_parser(ac, av, &options);*/
 	if (i == ac)
 		read_av(".", options);
 	else

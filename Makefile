@@ -30,8 +30,7 @@ LIB := $(LIBDIR)/libft.a
 
 # Compilation commands and flags
 CC := gcc
-CFLAGS := -Wall -Wextra -Werror $(DEBUG)
-DEBUG := -g
+CFLAGS := -Wall -Wextra -Werror
 
 .PHONY: all fclean clean
 
@@ -44,7 +43,7 @@ $(OBJDIR):
 	mkdir -p $(OBJDIR)
 
 $(OBJ): $(OBJDIR)%.o: $(SRCDIR)%.c $(OBJDIR)
-	$(CC) -c $(CFLAGS) -I$(INCDIR) -I$(LIBINCDIR) $< -o $@
+	$(CC) $(CFLAGS) -I$(INCDIR) -I$(LIBINCDIR) -c $< -o $@
 
 $(LIB):
 	make -C $(LIBDIR)

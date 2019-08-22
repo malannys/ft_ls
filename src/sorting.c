@@ -17,9 +17,12 @@
 */
 int		cmp_lex(char *s1, char *s2, int rev)
 {
+	int i;
+
 	if (rev)
 		return (ft_strcmp(s1, s2) >= 0);
-	return (ft_strcmp(s1, s2) <= 0);
+	i = ft_strcmp(s1, s2) <= 0 ? 1 : 0;
+	return (i);
 }
 
 /*
@@ -57,7 +60,7 @@ int		cmp(t_node *node1, t_node *node2, int *options)
 
 	name[0] = node1->name;
 	name[1] = node2->name;
-	rev = (FLAG_RR & *options) ? 1 : 0;
+	rev = (FLAG_R & *options) ? 1 : 0;
 	if (FLAG_SS & *options)
 		return (cmp_size(node1->stats.st_size, node2->stats.st_size, name, rev));
 	else if (FLAG_T & *options)
@@ -76,14 +79,15 @@ void	insert_and_sort(t_node **head, t_node *node, int *options)
 {
 	t_node	*tmp;
 	t_node	*swap;
+	t_node	*prev;
 
-	tmp = *head;
 	if (FLAG_FF & *options)
 	{
 		push_back(head, node);
 		return ;
 	}
 	push_front(head, node);
+	prev = *head;
 	tmp = *head;
 	while (tmp->next && !cmp(tmp, tmp->next, options))
 	{
@@ -92,6 +96,8 @@ void	insert_and_sort(t_node **head, t_node *node, int *options)
 		swap->next = tmp;
 		if (tmp == *head)
 			*head = swap;
-		tmp = tmp->next;
+		else
+			prev->next = swap;	
+		prev = swap;
 	}
 }

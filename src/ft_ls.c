@@ -25,7 +25,7 @@ char	*add_path(char *path, char *name)
 		error(MALLOC_FAILURE, NULL);
 	ft_memcpy(new_path, path, len1);
 	*(new_path + len1) = '/';
-	ft_memcpy(new_path + len1 + 1, path, len2);
+	ft_memcpy(new_path + len1 + 1, name, len2);
 	*(new_path + len1 + len2 + 1) = '\0';
 	return (new_path);
 }

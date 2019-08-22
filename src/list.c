@@ -24,8 +24,7 @@ void	push_back(t_node **head, t_node *node)
 
 void	push_front(t_node **head, t_node *node)
 {
-	if (*head)
-		node->next = (*head)->next;
+	node->next = *head;
 	*head = node;
 }
 

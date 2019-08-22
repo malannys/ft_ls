@@ -1,0 +1,7 @@
+ft_ls
+a.out
+*.o
+*dSYM
+.*DS_Store
+*.json
+.vscode
