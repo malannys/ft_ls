@@ -11,13 +11,12 @@
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
 /*
 ** Sort by lexicographic order
 */
 int		cmp_lex(char *s1, char *s2, int rev)
 {
-	int i;
-
 	if (rev)
 		return (ft_strcmp(s1, s2) >= 0);
 	return(ft_strcmp(s1, s2) <= 0);

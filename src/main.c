@@ -24,9 +24,7 @@ int		main(int ac, char **av)
 	else
 	{
 		while (i < ac)
-		{
 			read_av(av[i++], options);
-		}
 	}
 	return (0);
 }

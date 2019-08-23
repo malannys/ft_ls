@@ -12,33 +12,43 @@
 
 #include "ft_ls.h"
 
-int		error(int error_status, char *name)
+void	print_errormsg(char *func, char *name)
+{
+	char	*errorbuff;
+
+	ft_putstr("ft_ls: ");
+	ft_putstr(func);
+	ft_putstr(": ");
+	ft_putstr(name);
+	ft_putstr(": ");
+	if ((errorbuff = strerror(errno)))
+		ft_putstr(errorbuff);
+	write(2, "\n", 1);
+}
+
+void	error(int error_status, char *name)
 {
 	if (error_status == MALLOC_FAILURE)
 	{
-		perror("ls: malloc: ");
+		perror("ft_ls: malloc: ");
 		exit(EXIT_FAILURE);
 	}
 	else if (error_status == LSTAT_FAILURE)
-	{
-		ft_putendl_fd(name, 1);
-		perror("ls: lstat");
-	}
-	else if (error_status == READDIR_FAILURE) //dirname
-		perror("ls: readdir");
-	else if (error_status == OPENDIR_FAILURE) //dirname
-		perror("ls: opendir");
-	else if (error_status == CLOSEDIR_FAILURE) //dirname
-		perror("ls: closedir");
+		print_errormsg("lstat", name);
+	else if (error_status == READDIR_FAILURE)
+		print_errormsg("readdir", name);
+	else if (error_status == OPENDIR_FAILURE)
+		print_errormsg("opendir", name);
+	else if (error_status == CLOSEDIR_FAILURE)
+		print_errormsg("closedir", name);
 	else if (error_status == GETPWUID_FAILURE)
-		perror("ls: getpwuid");
+		perror("ft_ls: getpwuid");
 	else if (error_status == GETGRGID_FAILURE)
-		perror("ls: getgrgid");
+		perror("ft_ls: getgrgid");
 	else if (error_status == LISTXATTR_FAILURE)
-		perror("ls: listxattr");
+		perror("ft_ls: listxattr");
 	else if (error_status == GETXATTR_FAILURE)
-		perror("ls: getxattr");
+		perror("ft_ls: getxattr");
 	else if (error_status == READLINK_FAILURE)
-		perror("ls: readlink");
-	return (-1);
+		perror("ft_ls: readlink");
 }

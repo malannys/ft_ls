@@ -15,6 +15,7 @@
 
 # include <stdio.h>
 # include <errno.h>
+# include <string.h>
 # include <stdlib.h>
 # include <dirent.h>
 # include <sys/types.h>
@@ -70,7 +71,7 @@
 
 typedef struct	s_node
 {
-	char			name[256]; // 1024? lstat
+	char			name[1024];
 	struct stat		stats;
 	struct s_node	*next;
 }				t_node;
@@ -78,7 +79,7 @@ typedef struct	s_node
 int		opt_parser(int ac, char **av, int *options); // options parser
 
 void	read_av(char *av, int options); //
-void	read_dir(char *path, int *options);
+void	read_dir(char *path, char *name, int *options);
 void	dir_recursive(char *path, t_node **head, int *options);
 char	*add_path(char *path, char *name);
 
@@ -93,7 +94,8 @@ int		cmp_lex(char *s1, char *s2, int rev);
 int		cmp_time(time_t a, time_t b, char **name, int rev);
 int		cmp_size(off_t a, off_t b, char **name, int rev);
 
-int		error(int error_status, char *name);
+void	error(int error_status, char *name);
+void	print_errormsg(char *func, char *name);
 
 void	print(char *path, t_node *head, int *options);
 

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
 char	*add_path(char *path, char *name)
 {
 	size_t	len1;
@@ -43,14 +44,14 @@ void	dir_recursive(char *path, t_node **head, int *options)
 		{
 			if (!(new_path = add_path(path, node->name)))
 				error(MALLOC_FAILURE, NULL);
-			read_dir(new_path, options);
+			read_dir(new_path, node->name, options);
 			free(new_path);
 		}
 		node = node->next;
 	}
 }
 
-void	read_dir(char *path, int *options)
+void	read_dir(char *path, char *name, int *options)
 {
 	DIR				*dirp;
 	struct dirent	*dp;
@@ -60,15 +61,16 @@ void	read_dir(char *path, int *options)
 	errno = 0;
 	if (!(dirp = opendir(path)))
 	{
-		error(OPENDIR_FAILURE, path);
+		error(OPENDIR_FAILURE, name);
 		return ;
 	}
 	while ((dp = readdir(dirp)))
 		if (add_node(path, &head, dp, options) == -1)
 			continue;
 	if (errno)
-		error(READDIR_FAILURE, NULL);
-	closedir(dirp);
+		error(READDIR_FAILURE, name);
+	if(closedir(dirp) == -1)
+		error(CLOSEDIR_FAILURE, name);
 	print(path, head, options);
 	if (FLAG_RR & *options)
 		dir_recursive(path, &head, options);
@@ -88,13 +90,13 @@ void	read_av(char *av, int options)
 		error(MALLOC_FAILURE, NULL);
 	if (lstat(av, &node->stats) == -1)
 	{
-		error(LSTAT_FAILURE, NULL);
+		error(LSTAT_FAILURE, av);
 		return ;
 	}
 	strcpy(node->name, av);
 	node->next = NULL;
 	if (S_ISDIR(node->stats.st_mode))
-		read_dir(av, &options);
+		read_dir(av, av, &options);
 	else
 		print(av, node, &options);
 	free_list(&node);
