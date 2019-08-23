@@ -94,7 +94,7 @@ void	insert_and_sort(t_node **head, t_node *node, int *options)
 		if (tmp == *head)
 			*head = swap;
 		else
-			prev->next = swap;	
+			prev->next = swap;
 		prev = swap;
 	}
 }

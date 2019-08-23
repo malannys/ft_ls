@@ -28,24 +28,25 @@ void	push_front(t_node **head, t_node *node)
 	*head = node;
 }
 
-int		add_node(char *path, t_node **head, struct dirent *dp, int *options)
+void	add_node(char *path, t_node **head, char *name, int *options)
 {
 	t_node	*node;
-	char	*new_path;
 
+	errno = 0;
 	if (!(node = (t_node *)malloc(sizeof(t_node))))
 		error(MALLOC_FAILURE, NULL);
-	if (!(new_path = add_path(path, dp->d_name)))
+	if (!(node->path = add_path(path, name)))
 		error(MALLOC_FAILURE, NULL);
-	if (lstat(new_path, &node->stats) == -1)
+	if (lstat(node->path, &node->stats) == -1)
 	{
 		error(LSTAT_FAILURE, node->name);
-		return (-1);
+		free(node->path);
+		free(node);
+		return ;
 	}
-	ft_strcpy(node->name, dp->d_name);
+	ft_strcpy(node->name, name);
 	node->next = NULL;
 	insert_and_sort(head, node, options);
-	return (0);
 }
 
 void	free_list(t_node** head)
@@ -57,8 +58,30 @@ void	free_list(t_node** head)
 	while (prev)
 	{
 		tmp = prev->next;
+		free(prev->path);
 		free(prev);
 		prev = tmp;
 	}
 	*head = NULL;
+}
+
+char	*add_path(char *path, char *name)
+{
+	size_t	len1;
+	size_t	len2;
+	char	*new_path;
+
+	errno = 0;
+	if (!(path && name))
+		return (ft_strjoin(path, name));
+	len1 = ft_strlen(path);
+	len2 = ft_strlen(name);
+	if ((new_path = (char *)malloc(len1 + len2 + 2)))
+	{
+		ft_memcpy(new_path, path, len1);
+		*(new_path + len1) = '/';
+		ft_memcpy(new_path + len1 + 1, name, len2);
+		*(new_path + len1 + len2 + 1) = '\0';
+	}
+	return (new_path);
 }

@@ -72,18 +72,18 @@
 typedef struct	s_node
 {
 	char			name[1024];
+	char			*path;
 	struct stat		stats;
 	struct s_node	*next;
 }				t_node;
 
 int		opt_parser(int ac, char **av, int *options); // options parser
 
-void	read_av(char *av, int options); //
 void	read_dir(char *path, char *name, int *options);
-void	dir_recursive(char *path, t_node **head, int *options);
-char	*add_path(char *path, char *name);
+void	dir_recursive(t_node **head, int *options);
 
-int		add_node(char *path, t_node **head, struct dirent *dp, int *options);
+void	add_node(char *path, t_node **head, char *name, int *options);
+char	*add_path(char *path, char *name);
 void	push_back(t_node **head, t_node *node);
 void	push_front(t_node **head, t_node *node);
 void	free_list(t_node **head);
