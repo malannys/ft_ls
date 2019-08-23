@@ -48,6 +48,9 @@ $(OBJ): $(OBJDIR)%.o: $(SRCDIR)%.c $(OBJDIR)
 $(LIB):
 	make -C $(LIBDIR)
 
+debug:
+	$(CC) -g $(CFLAGS) $(SRC) -I$(INCDIR) -I$(LIBINCDIR) $(LIB) -o $(NAME)
+
 clean:
 	rm -rf $(OBJDIR)
 	make -C $(LIBDIR) clean

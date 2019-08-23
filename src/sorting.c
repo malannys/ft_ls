@@ -34,8 +34,8 @@ int		cmp_time(time_t a, time_t b, char **name, int rev)
 	if (a == b)
 		return (cmp_lex(name[0], name[1], rev));
 	if (rev)
-		return (a > b ? 1 : 0);
-	return (a < b ? 1 : 0);
+		return (a < b ? 1 : 0);
+	return (a > b ? 1 : 0);
 }
 
 /*
@@ -46,8 +46,8 @@ int		cmp_size(off_t a, off_t b, char **name, int rev)
 	if (a == b)
 		return (cmp_lex(name[0], name[1], rev));
 	if (rev)
-		return (a > b ? 1 : 0);
-	return (a < b ? 1 : 0);
+		return (a < b ? 1 : 0);
+	return (a > b ? 1 : 0);
 }
 
 int		cmp(t_node *node1, t_node *node2, int *options)
