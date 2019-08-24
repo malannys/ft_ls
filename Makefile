@@ -32,7 +32,7 @@ LIB := $(LIBDIR)/libft.a
 CC := gcc
 CFLAGS := -Wall -Wextra -Werror
 
-.PHONY: all fclean clean
+.PHONY: all fclean clean debug
 
 all: $(NAME)
 

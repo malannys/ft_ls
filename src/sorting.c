@@ -60,14 +60,14 @@ int		cmp(t_node *node1, t_node *node2, int *options)
 	rev = (FLAG_R & *options) ? 1 : 0;
 	if (FLAG_SS & *options)
 		return (cmp_size(node1->stats.st_size, node2->stats.st_size, name, rev));
+	else if ((FLAG_U & *options) && (FLAG_T & *options))
+		return (cmp_time(node1->stats.st_atime, node2->stats.st_atime, name, rev));
+	else if ((FLAG_UU & *options) && (FLAG_T & *options))
+		return (cmp_time(node1->stats.st_birthtime, node2->stats.st_birthtime, name, rev));
+	else if ((FLAG_C & *options) && (FLAG_T & *options))
+		return (cmp_time(node1->stats.st_ctime, node2->stats.st_ctime, name, rev));
 	else if (FLAG_T & *options)
 		return (cmp_time(node1->stats.st_mtime, node2->stats.st_mtime, name, rev));
-	else if (FLAG_C & *options)
-		return (cmp_time(node1->stats.st_ctime, node2->stats.st_ctime, name, rev));
-	else if (FLAG_U & *options)
-		return (cmp_time(node1->stats.st_atime, node2->stats.st_atime, name, rev));
-	else if (FLAG_UU & *options)
-		return (cmp_time(node1->stats.st_birthtime, node2->stats.st_birthtime, name, rev));
 	else
 		return (cmp_lex(node1->name, node2->name, rev));
 }

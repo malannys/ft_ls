@@ -16,6 +16,8 @@ void	print(char *path, t_node *head, int *options)
 {
 	t_node	*tmp;
 
+	if (!head)
+		return ;
 	tmp = head;
 	if (FLAG_ONE & *options)
 	{
@@ -26,6 +28,5 @@ void	print(char *path, t_node *head, int *options)
 			ft_putendl_fd(tmp->name, 1);
 			tmp = tmp->next;
 		}
-		write(1, "\n", 2);
 	}
 }

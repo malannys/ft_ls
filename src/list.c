@@ -39,7 +39,7 @@ void	add_node(char *path, t_node **head, char *name, int *options)
 		error(MALLOC_FAILURE, NULL);
 	if (lstat(node->path, &node->stats) == -1)
 	{
-		error(LSTAT_FAILURE, node->name);
+		error(LSTAT_FAILURE, name);
 		free(node->path);
 		free(node);
 		return ;

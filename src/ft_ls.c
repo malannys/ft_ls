@@ -58,7 +58,7 @@ int		main(int ac, char **av)
 	int		i;
 	t_node	*head;
 
-	options = FLAG_RR | FLAG_ONE;
+	options = FLAG_ONE | FLAG_U | FLAG_T;
 	i = 1; /*opt_parser(ac, av, &options);*/
 	if (i == ac)
 		read_dir(".", ".", &options);
@@ -68,7 +68,7 @@ int		main(int ac, char **av)
 			errno = 0;
 			head = NULL;
 			add_node(NULL, &head, av[i], &options);
-			if (S_ISDIR(head->stats.st_mode))
+			if (head && S_ISDIR(head->stats.st_mode))
 				read_dir(av[i], av[i], &options);
 			else
 				print(av[i], head, &options);
