@@ -6,7 +6,7 @@
 /*   By: malannys <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 19:16:46 by malannys          #+#    #+#             */
-/*   Updated: 2019/08/21 19:27:14 by malannys         ###   ########.fr       */
+/*   Updated: 2019/08/24 20:46:29 by abartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@
 # define FLAG_V 0x4000000
 # define FLAG_W 0x8000000
 # define FLAG_EA 0x10000000
+# define FLAG_HH 0x20000000
 
 typedef struct	s_node
 {

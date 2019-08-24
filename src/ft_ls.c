@@ -6,7 +6,7 @@
 /*   By: malannys <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 19:09:50 by malannys          #+#    #+#             */
-/*   Updated: 2019/08/24 17:48:32 by malannys         ###   ########.fr       */
+/*   Updated: 2019/08/24 20:45:15 by abartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ int		main(int ac, char **av)
 	int		i;
 	t_node	*head;
 
-	options = FLAG_ONE | FLAG_U | FLAG_T;
-	i = 1; /*opt_parser(ac, av, &options);*/
+	options = 0;
+	i = opt_parser(ac, av, &options);
 	if (i == ac)
 		read_dir(".", ".", &options);
 	else
