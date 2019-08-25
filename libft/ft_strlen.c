@@ -6,7 +6,7 @@
 /*   By: malannys <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/24 13:54:41 by malannys          #+#    #+#             */
-/*   Updated: 2019/08/24 17:49:11 by malannys         ###   ########.fr       */
+/*   Updated: 2019/08/25 17:01:27 by abartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 size_t	ft_strlen(const char *s)
 {
-	size_t	i;
+	char *cp;
 
-	i = 0;
-	while (*(s + i))
-		i++;
-	return (i);
+	cp = (char *)s;
+	while (*(s))
+		++s;
+	return (s - cp);
 }

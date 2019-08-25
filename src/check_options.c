@@ -6,7 +6,7 @@
 /*   By: abartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 21:00:14 by abartole          #+#    #+#             */
-/*   Updated: 2019/08/24 21:17:03 by abartole         ###   ########.fr       */
+/*   Updated: 2019/08/25 20:23:07 by abartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	check_options2(char *str, int *options)
 	else if (*str == 'n')
 		*options &= ~(FLAG_L);
 	else if (*str == 'u')
-		*options &= ~(FLAG_C);	
+		*options &= ~(FLAG_C);
 }
 
 static void	check_options1(char *str, int *options)
@@ -48,7 +48,7 @@ static void	check_options1(char *str, int *options)
 	check_options2(str, options);
 }
 
-void	check_options(char *str, int *options)
+void		check_options(char *str, int *options)
 {
 	if (*str == 'l')
 	{
@@ -89,7 +89,7 @@ static void	check_all_flags1(int *options)
 		*options &= ~(FLAG_HH);
 }
 
-void	check_all_flags(int *options)
+void		check_all_flags(int *options)
 {
 	if (!(*options & FLAG_L))
 		*options &= ~(FLAG_TT);

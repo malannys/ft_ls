@@ -6,7 +6,7 @@
 /*   By: malannys <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 19:16:46 by malannys          #+#    #+#             */
-/*   Updated: 2019/08/24 21:16:47 by abartole         ###   ########.fr       */
+/*   Updated: 2019/08/25 20:05:04 by abartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@
 # include <unistd.h>
 # include <pwd.h>
 # include <grp.h>
-//# include <attr/xattr.h>
+# include <sys/xattr.h>
 # include <time.h>
+# include <sys/acl.h>
 
 #include "libft.h"
 
@@ -86,7 +87,24 @@ void	check_options(char *str, int *options);
 void	check_all_flags(int *options);
 int		opt_parser(int ac, char **av, int *options);
 
+/*
+** Printing
+*/
 
+void	type_perm(char *path, mode_t st_mode);
+void	print_inode(t_node *tmp);
+void	print_string(t_node *tmp, int *options);
+void	print_long(char *path, t_node *tmp, int *options);
+
+/*
+** Information for long format
+*/
+
+void	get_time(t_node *ymp, int *options);
+void	get_name(uid_t st_uid, int *options);
+void	get_group(gid_t st_gid, int *options);
+void	get_size(off_t st_size);
+int		count_digits(int n);
 
 void	read_dir(char *path, char *name, int *options);
 void	dir_recursive(t_node **head, int *options);

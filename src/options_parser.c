@@ -6,7 +6,7 @@
 /*   By: abartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 20:32:16 by abartole          #+#    #+#             */
-/*   Updated: 2019/08/24 21:17:00 by abartole         ###   ########.fr       */
+/*   Updated: 2019/08/25 20:19:10 by abartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 static int	error_managment(char *str, int error)
 {
+	char	*s;
+
+	s = "usage: ft_ls [-1AaBCcdeFfGgilmnopqRrSTtuUvw@H] [file ...]";
 	if (error == 1)
 	{
 		ft_putstr_fd("ft_ls: illegal option -- ", 2);
 		ft_putchar_fd(*str, 2);
 		ft_putchar_fd('\n', 2);
-		ft_putendl_fd("usage: ft_ls [-1AaBCcdeFfGgilmnopqRrSTtuUvw@] [file ...]", 2);
+		ft_putendl_fd(s, 2);
 	}
 	return (0);
 }
@@ -52,7 +55,7 @@ static int	get_options(char *str, int *options)
 	return (1);
 }
 
-int	opt_parser(int ac, char **av, int *options)
+int			opt_parser(int ac, char **av, int *options)
 {
 	int i;
 
