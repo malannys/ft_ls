@@ -12,14 +12,12 @@
 
 #include "ft_ls.h"
 
-static void	get_symlink(nlink_t st_nlink)
+static void	get_symlink(nlink_t st_nlink, int maxlen)
 {
-	int i;
 	int	len;
 
-	len = count_digits(st_nlink);
-	i = 3; // will be special function
-	while (len < i)
+	len = nb_len(st_nlink);
+	while (len < maxlen)
 	{
 		write(1, " ", 1);
 		len++;
@@ -53,17 +51,17 @@ static void	print_total(t_node *tmp, int *options)
 	write(1, "\n", 1);
 }
 
-static void	print_info(t_node *tmp, int *options)
+static void	print_info(t_node *tmp, int *maxlen, int *options)
 {
 	if (FLAG_I & *options)
-			print_inode(tmp);
+			print_inode(tmp, maxlen[MAX_INO]);
 	type_perm(tmp->path, tmp->stats.st_mode);
-	get_symlink(tmp->stats.st_nlink);
+	get_symlink(tmp->stats.st_nlink, maxlen[MAX_LNK]);
 	if (!(FLAG_G & *options))
-		get_name(tmp->stats.st_uid, options);
+		get_name(tmp, options, maxlen);
 	if (!(FLAG_O & *options))
-		get_group(tmp->stats.st_gid, options);		
-	get_size(tmp->stats.st_size);
+		get_group(tmp, options, maxlen);
+	get_size(tmp->stats.st_size, maxlen[MAX_SZ]);
 	get_time(tmp, options);
 	ft_putstr(tmp->name);
 	write(1, "\n", 1);
@@ -71,6 +69,10 @@ static void	print_info(t_node *tmp, int *options)
 
 void		print_long(char *path, t_node *tmp, int *options)
 {
+	int		maxlen[7];
+
+	ft_bzero(maxlen, sizeof(int) * 7);
+	get_maxlen(tmp, maxlen, options);
 	if (FLAG_RR & *options)
 	{
 		ft_putstr(path);
@@ -79,12 +81,7 @@ void		print_long(char *path, t_node *tmp, int *options)
 	print_total(tmp, options);
 	while (tmp)
 	{
-		if (!(FLAG_A & *options) && !(FLAG_AA & *options))
-		{
-			while (tmp && tmp->name[0] == '.')
-				tmp = tmp->next;
-		}
-		print_info(tmp, options);
+		print_info(tmp, maxlen, options); // check for getgrgid and getpwuid failures needed
 		tmp = tmp->next;
 	}
 	if (FLAG_RR & *options)

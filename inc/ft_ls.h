@@ -71,6 +71,8 @@
 # define FLAG_EA 0x10000000
 # define FLAG_HH 0x20000000
 
+# define MAX(a, b) (((a) > (b)) ? (a) : (b))
+
 typedef struct	s_node
 {
 	char			name[1024];
@@ -78,6 +80,17 @@ typedef struct	s_node
 	struct stat		stats;
 	struct s_node	*next;
 }				t_node;
+
+typedef enum	e_maxlen
+{
+	MAX_INO,
+	MAX_LNK,
+	MAX_UID,
+	MAX_GID,
+	MAX_SZ,
+	MAX_PWD,
+	MAX_GP
+}				t_maxlen;
 
 /*
 ** Parsing options
@@ -92,7 +105,7 @@ int		opt_parser(int ac, char **av, int *options);
 */
 
 void	type_perm(char *path, mode_t st_mode);
-void	print_inode(t_node *tmp);
+void	print_inode(t_node *tmp, int maxlen);
 void	print_string(t_node *tmp, int *options);
 void	print_long(char *path, t_node *tmp, int *options);
 
@@ -100,11 +113,14 @@ void	print_long(char *path, t_node *tmp, int *options);
 ** Information for long format
 */
 
-void	get_time(t_node *ymp, int *options);
-void	get_name(uid_t st_uid, int *options);
-void	get_group(gid_t st_gid, int *options);
-void	get_size(off_t st_size);
-int		count_digits(int n);
+void	get_maxlen_user(t_node *tmp, int *max, int *options);
+void	get_maxlen_group(t_node *tmp, int *max, int *options);
+void	get_maxlen(t_node *tmp, int *max, int *options);
+void	get_time(t_node *tmp, int *options);
+void	get_name(t_node *tmp, int *options, int *maxlen);
+void	get_group(t_node *tmp, int *options, int *maxlen);
+void	get_size(off_t st_size, int maxlen);
+int		nb_len(long long n);
 
 void	read_dir(char *path, char *name, int *options);
 void	dir_recursive(t_node **head, int *options);

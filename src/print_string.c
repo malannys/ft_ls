@@ -17,7 +17,7 @@ void	print_string(t_node *tmp, int *options)
 	while (tmp)
 	{		
 		if (FLAG_I & *options)
-			print_inode(tmp);
+			print_inode(tmp, 0);
 		ft_putstr(tmp->name);
 		if (tmp->next)
 		{			

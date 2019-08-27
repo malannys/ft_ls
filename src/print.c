@@ -12,14 +12,12 @@
 
 #include "ft_ls.h"
 
-void	print_inode(t_node *tmp)
+void	print_inode(t_node *tmp, int maxlen)
 {
 	int	len;
-	int	i;
 
-	i = 7;
-	len = count_digits(tmp->stats.st_ino);
-	while (len < i)
+	len = nb_len(tmp->stats.st_ino);
+	while (len < maxlen)
 	{
 		write (1, " ", 1);
 		len++;
@@ -30,19 +28,13 @@ void	print_inode(t_node *tmp)
 
 void	print(char *path, t_node *head, int *options)
 {
-	t_node	*tmp;
-
-	tmp = head;
-	if (!(FLAG_A & *options) && !(FLAG_AA & *options))
-	{
-		while (tmp && tmp->name[0] == '.')
-			tmp = tmp->next;
-	}
+	if (!head)
+		return ;
 	if (FLAG_M & *options)
-		print_string(tmp, options);
+		print_string(head, options);
 	else if ((FLAG_L & *options) || (FLAG_G & *options) ||
 			(FLAG_O & *options) || (FLAG_L & *options))
-		print_long(path, tmp, options);
+		print_long(path, head, options);
 	//else if (FLAG_ONE & *options)
 		//print_column(tmp, options);
 	//else
