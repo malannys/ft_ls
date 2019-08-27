@@ -12,6 +12,16 @@
 
 #include "ft_ls.h"
 
+static int	check_options_a(char *name, int *options)
+{
+	if (FLAG_A & *options)
+		return (1);
+	if ((FLAG_AA & *options) && (!ft_strcmp(name, ".") || !ft_strcmp(name, "..")))
+		return (0);
+	if (!(FLAG_AA & *options) && (name[0] == '.'))
+		return (0);
+	return (1);
+}
 void	dir_recursive(t_node **head, int *options)
 {
 	t_node	*node;
@@ -22,7 +32,10 @@ void	dir_recursive(t_node **head, int *options)
 	{
 		if (ft_strcmp(".", node->name) && ft_strcmp("..", node->name) \
 			&& S_ISDIR(node->stats.st_mode))
+		{
+			write(1, "\n", 1);
 			read_dir(node->path, node->name, options);
+		}
 		node = node->next;
 	}
 }
@@ -41,10 +54,11 @@ void	read_dir(char *path, char *name, int *options)
 		return ;
 	}
 	while ((dp = readdir(dirp)))
-		add_node(path, &head, dp->d_name, options);
+		if (check_options_a(dp->d_name, options))
+			add_node(path, &head, dp->d_name, options);
 	if (errno)
 		error(READDIR_FAILURE, name);
-	if(closedir(dirp) == -1)
+	if (closedir(dirp) == -1)
 		error(CLOSEDIR_FAILURE, name);
 	print(path, head, options);
 	if (FLAG_RR & *options)

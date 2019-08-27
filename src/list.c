@@ -72,7 +72,7 @@ char	*add_path(char *path, char *name)
 	char	*new_path;
 
 	errno = 0;
-	if (!(path && name))
+	if (!(path && name) || !ft_strcmp(path, "/"))
 		return (ft_strjoin(path, name));
 	len1 = ft_strlen(path);
 	len2 = ft_strlen(name);
