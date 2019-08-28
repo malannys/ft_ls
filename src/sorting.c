@@ -78,7 +78,7 @@ void	insert_and_sort(t_node **head, t_node *node, int *options)
 	t_node	*swap;
 	t_node	*prev;
 
-	if (FLAG_FF & *options)
+	if (FLAG_F & *options)
 	{
 		push_back(head, node);
 		return ;

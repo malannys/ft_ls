@@ -14,12 +14,9 @@
 
 void	push_back(t_node **head, t_node *node)
 {
-	t_node	*tmp;
-
-	tmp = *head;
-	while (tmp && tmp->next)
-		tmp = tmp->next;
-	tmp = node;
+	while (head && *head)
+		head = &(*head)->next;
+	*head = node;
 }
 
 void	push_front(t_node **head, t_node *node)
@@ -49,20 +46,18 @@ void	add_node(char *path, t_node **head, char *name, int *options)
 	insert_and_sort(head, node, options);
 }
 
-void	free_list(t_node** head)
+void	free_list(t_node **head)
 {
-	t_node	*prev;
 	t_node	*tmp;
 
-	prev = *head;
-	while (prev)
+	while (head && *head)
 	{
-		tmp = prev->next;
-		free(prev->path);
-		free(prev);
-		prev = tmp;
+		tmp = (*head)->next;
+		free((*head)->path);
+		free(*head);
+		*head = NULL;
+		head = &tmp;
 	}
-	*head = NULL;
 }
 
 char	*add_path(char *path, char *name)
