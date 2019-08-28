@@ -52,7 +52,7 @@ void	free_list(t_node **head)
 	t_node	*prev;
 
 	prev = *head;
-	while (tmp)
+	while (prev)
 	{
 		tmp = prev->next;
 		free(prev->path);
