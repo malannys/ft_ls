@@ -49,15 +49,17 @@ void	add_node(char *path, t_node **head, char *name, int *options)
 void	free_list(t_node **head)
 {
 	t_node	*tmp;
+	t_node	*prev;
 
-	while (head && *head)
+	prev = *head;
+	while (tmp)
 	{
-		tmp = (*head)->next;
-		free((*head)->path);
-		free(*head);
-		*head = NULL;
-		head = &tmp;
+		tmp = prev->next;
+		free(prev->path);
+		free(prev);
+		prev = tmp;
 	}
+	*head = NULL;
 }
 
 char	*add_path(char *path, char *name)
