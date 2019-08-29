@@ -124,6 +124,7 @@ static void	check_all_flags1(int *options)
 
 static void	check_all_flags(int *options)
 {
+	*options |= FLAG_HH;
 	if (!(*options & FLAG_L))
 		*options &= ~(FLAG_TT);
 	if (!((*options & FLAG_L) || (*options & FLAG_T)))

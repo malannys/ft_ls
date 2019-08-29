@@ -19,7 +19,7 @@ void	print(char *path, t_node *head, int *options)
 	if (!head) // don't forget to check for null!!
 		return ;
 	tmp = head;
-	if (FLAG_RR & *options)
+	if (path && (FLAG_RR && *options))
 	{
 		ft_putstr(path);
 		write(1, ":\n", 2);

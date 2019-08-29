@@ -82,10 +82,11 @@ typedef struct	s_node
 
 int		opt_parser(int ac, char **av, int *options); // options parser
 
-void	read_dir(char *path, char *name, int *options);
+void	read_args(int ac, char **av, int *options, int arg);
+void	read_dir(char *path, t_node *node, int *options);
 void	dir_recursive(t_node **head, int *options);
 
-void	add_node(char *path, t_node **head, char *name, int *options);
+t_node	*add_node(char *path, char *name, int *options, int follow_link);
 char	*add_path(char *path, char *name);
 void	push_back(t_node **head, t_node *node);
 void	push_front(t_node **head, t_node *node);
