@@ -14,45 +14,49 @@
 
 void	push_back(t_node **head, t_node *node)
 {
-	t_node	*tmp;
-
-	tmp = *head;
-	while (tmp && tmp->next)
-		tmp = tmp->next;
-	tmp = node;
+	while (head && *head)
+		head = &(*head)->next;
+	*head = node;
 }
 
 void	push_front(t_node **head, t_node *node)
 {
+	if (!node)
+		return ;
 	node->next = *head;
 	*head = node;
 }
 
-void	add_node(char *path, t_node **head, char *name, int *options)
+t_node	*add_node(char *path, char *name, int *options, int follow_link)
 {
 	t_node	*node;
+	int		failed;
 
 	errno = 0;
 	if (!(node = (t_node *)malloc(sizeof(t_node))))
 		error(MALLOC_FAILURE, NULL);
 	if (!(node->path = add_path(path, name)))
 		error(MALLOC_FAILURE, NULL);
-	if (lstat(node->path, &node->stats) == -1)
+	if (follow_link && (FLAG_HH & *options))
+		failed = stat(node->path, &node->stats);
+	else
+		failed = lstat(node->path, &node->stats);
+	if (failed == -1)
 	{
 		error(LSTAT_FAILURE, name);
 		free(node->path);
 		free(node);
-		return ;
+		return (NULL);
 	}
 	ft_strcpy(node->name, name);
 	node->next = NULL;
-	insert_and_sort(head, node, options);
+	return (node);
 }
 
-void	free_list(t_node** head)
+void	free_list(t_node **head)
 {
-	t_node	*prev;
 	t_node	*tmp;
+	t_node	*prev;
 
 	prev = *head;
 	while (prev)
@@ -72,7 +76,7 @@ char	*add_path(char *path, char *name)
 	char	*new_path;
 
 	errno = 0;
-	if (!(path && name))
+	if (!(path && name) || !ft_strcmp(path, "/"))
 		return (ft_strjoin(path, name));
 	len1 = ft_strlen(path);
 	len2 = ft_strlen(name);

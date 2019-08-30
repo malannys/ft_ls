@@ -12,6 +12,16 @@
 
 #include "ft_ls.h"
 
+static int	check_options_a(char *name, int *options)
+{
+	if (FLAG_A & *options)
+		return (1);
+	if ((FLAG_AA & *options) && (!ft_strcmp(name, ".") || !ft_strcmp(name, "..")))
+		return (0);
+	if (!(FLAG_AA & *options) && (name[0] == '.'))
+		return (0);
+	return (1);
+}
 void	dir_recursive(t_node **head, int *options)
 {
 	t_node	*node;
@@ -21,13 +31,16 @@ void	dir_recursive(t_node **head, int *options)
 	while (node)
 	{
 		if (ft_strcmp(".", node->name) && ft_strcmp("..", node->name) \
-			&& S_ISDIR(node->stats.st_mode))
-			read_dir(node->path, node->name, options);
+				&& S_ISDIR(node->stats.st_mode))
+		{
+			write(1, "\n", 1);
+			read_dir(node->path, node, options);
+		}
 		node = node->next;
 	}
 }
 
-void	read_dir(char *path, char *name, int *options)
+void	read_dir(char *path, t_node *node, int *options)
 {
 	DIR				*dirp;
 	struct dirent	*dp;
@@ -35,45 +48,80 @@ void	read_dir(char *path, char *name, int *options)
 
 	head = NULL;
 	errno = 0;
-	if (!(dirp = opendir(path)))
+	if (!(dirp = opendir(node->path)))
 	{
-		error(OPENDIR_FAILURE, name);
+		error(OPENDIR_FAILURE, node->name);
 		return ;
 	}
 	while ((dp = readdir(dirp)))
-		add_node(path, &head, dp->d_name, options);
+		if (check_options_a(dp->d_name, options))
+			insert_and_sort(&head, add_node(node->path, dp->d_name, options, 0), options);
 	if (errno)
-		error(READDIR_FAILURE, name);
-	if(closedir(dirp) == -1)
-		error(CLOSEDIR_FAILURE, name);
+		error(READDIR_FAILURE, node->name);
+	if (closedir(dirp) == -1)
+		error(CLOSEDIR_FAILURE, node->name);
 	print(path, head, options);
 	if (FLAG_RR & *options)
 		dir_recursive(&head, options);
 	free_list(&head);
 }
 
+/*
+** Make 2 lists: for directories and for other types, sort each and
+** display other types list first, and dirs second.
+** If there is only one arg, don't display the path
+*/
+void	read_args(int ac, char **av, int *options, int arg)
+{
+	int			i;
+	t_node		*tmp;
+	t_node		*head_file;
+	t_node		*head_dir;
+
+	i = arg - 1;
+	head_dir = NULL;
+	head_file = NULL;
+	while (++i < ac)
+	{
+		tmp = add_node(NULL, av[i], options, 1);
+		if (tmp && S_ISDIR(tmp->stats.st_mode))
+			insert_and_sort(&head_dir, tmp, options);
+		else if (tmp)
+			insert_and_sort(&head_file, tmp, options);
+	}
+	print(NULL, head_file, options);
+	if (head_file && head_dir)
+		write(1, "\n", 1);
+	tmp = head_dir;
+	while (tmp)
+	{
+		if (arg == ac - 1)
+			read_dir(NULL, tmp, options);
+		else
+			read_dir(tmp->name, tmp, options);
+		tmp = tmp->next;
+		if (tmp)
+			write(1, "\n", 1);
+	}
+	free(head_dir);
+	free(head_file);
+}
+
 int		main(int ac, char **av)
 {
 	int		options;
 	int		i;
-	t_node	*head;
+	t_node	tmp;
 
 	options = 0;
 	i = opt_parser(ac, av, &options);
-	if (i == ac)
-		read_dir(".", ".", &options);
+	if (i == ac) // if no args, show current directory
+	{
+		tmp.path = ".";
+		ft_strcpy(tmp.name, ".");
+		read_dir(NULL, &tmp, &options);
+	}
 	else
-		while (i < ac)
-		{
-			errno = 0;
-			head = NULL;
-			add_node(NULL, &head, av[i], &options);
-			if (head && S_ISDIR(head->stats.st_mode))
-				read_dir(av[i], av[i], &options);
-			else
-				print(av[i], head, &options);
-			free_list(&head);
-			i++;
-		}
+		read_args(ac, av, &options, i);
 	return (0);
 }
