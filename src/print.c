@@ -6,7 +6,7 @@
 /*   By: malannys <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/17 15:19:37 by malannys          #+#    #+#             */
-/*   Updated: 2019/08/21 19:35:56 by malannys         ###   ########.fr       */
+/*   Updated: 2019/08/30 22:25:54 by malannys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ void	print(char *path, t_node *head, int *options)
 {
 	t_node	*tmp;
 
-	if (FLAG_RR & *options)
+	tmp = head;
+	if (path && (FLAG_RR && *options))
 	{
 		ft_putstr(path);
 		write(1, ":\n", 2);
 	}
 	if (!head) // don't forget to check for null!!
 		return ;
-	tmp = head;
 	if (FLAG_ONE & *options)
 	{
 		while (tmp)
