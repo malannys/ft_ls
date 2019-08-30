@@ -16,14 +16,14 @@ void	print(char *path, t_node *head, int *options)
 {
 	t_node	*tmp;
 
-	if (!head) // don't forget to check for null!!
-		return ;
 	tmp = head;
 	if (path && (FLAG_RR && *options))
 	{
 		ft_putstr(path);
 		write(1, ":\n", 2);
 	}
+	if (!head) // don't forget to check for null!!
+		return ;
 	if (FLAG_ONE & *options)
 	{
 		while (tmp)

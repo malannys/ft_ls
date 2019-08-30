@@ -66,6 +66,11 @@ void	read_dir(char *path, t_node *node, int *options)
 	free_list(&head);
 }
 
+/*
+** Make 2 lists: for directories and for other types, sort each and
+** display other types list first, and dirs second.
+** If there is only one arg, don't display the path
+*/
 void	read_args(int ac, char **av, int *options, int arg)
 {
 	int			i;
@@ -78,18 +83,25 @@ void	read_args(int ac, char **av, int *options, int arg)
 	head_file = NULL;
 	while (++i < ac)
 	{
-		tmp = add_node(".", av[i], options, 1);
+		tmp = add_node(NULL, av[i], options, 1);
 		if (tmp && S_ISDIR(tmp->stats.st_mode))
 			insert_and_sort(&head_dir, tmp, options);
 		else if (tmp)
 			insert_and_sort(&head_file, tmp, options);
 	}
 	print(NULL, head_file, options);
+	if (head_file && head_dir)
+		write(1, "\n", 1);
 	tmp = head_dir;
 	while (tmp)
 	{
-		read_dir(tmp->name, tmp, options);
+		if (arg == ac - 1)
+			read_dir(NULL, tmp, options);
+		else
+			read_dir(tmp->name, tmp, options);
 		tmp = tmp->next;
+		if (tmp)
+			write(1, "\n", 1);
 	}
 	free(head_dir);
 	free(head_file);
@@ -103,7 +115,7 @@ int		main(int ac, char **av)
 
 	options = 0;
 	i = opt_parser(ac, av, &options);
-	if (i == ac)
+	if (i == ac) // if no args, show current directory
 	{
 		tmp.path = ".";
 		ft_strcpy(tmp.name, ".");

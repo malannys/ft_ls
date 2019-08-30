@@ -6,7 +6,7 @@
 /*   By: abartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 20:32:16 by abartole          #+#    #+#             */
-/*   Updated: 2019/08/24 20:46:37 by abartole         ###   ########.fr       */
+/*   Updated: 2019/08/30 22:18:55 by malannys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,10 +143,12 @@ static void	check_all_flags(int *options)
 		*options &= ~(FLAG_C);
 		*options &= ~(FLAG_U);
 		*options &= ~(FLAG_UU);
-		*options &= ~(FLAG_R);
 	}
 	if (*options & FLAG_F)
+	{
 		*options &= ~(FLAG_SS);
+		*options &= ~(FLAG_R);
+	}
 	check_all_flags1(options);
 }		
 
