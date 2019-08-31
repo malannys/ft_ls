@@ -78,6 +78,7 @@ typedef struct	s_node
 	char			*path;
 	struct stat		stats;
 	struct s_node	*next;
+	struct s_node	*tail;
 }				t_node;
 
 int		opt_parser(int ac, char **av, int *options); // options parser

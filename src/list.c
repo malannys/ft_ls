@@ -14,9 +14,19 @@
 
 void	push_back(t_node **head, t_node *node)
 {
-	while (head && *head)
+	/*while (head && *head)
 		head = &(*head)->next;
-	*head = node;
+	*head = node;*/
+	if (!head || !node)
+		return ;
+	node->tail = node;
+	if (!*head)
+		*head = node;
+	else
+	{
+		(*head)->tail->next = node;
+		(*head)->tail = node;
+	}
 }
 
 void	push_front(t_node **head, t_node *node)
@@ -24,6 +34,10 @@ void	push_front(t_node **head, t_node *node)
 	if (!node)
 		return ;
 	node->next = *head;
+	if (*head)
+		node->tail = (*head)->tail;
+	else
+		node->tail = node;
 	*head = node;
 }
 
