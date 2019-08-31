@@ -7,3 +7,4 @@ a.out
 .vscode
 .DS_Store
 obj/
+libft/libft.a
