@@ -87,13 +87,16 @@ void	read_args(int ac, char **av, int *options, int arg);
 void	read_dir(char *path, t_node *node, int *options);
 void	dir_recursive(t_node **head, int *options);
 
-t_node	*add_node(char *path, char *name, int *options, int follow_link);
+t_node	*create_node(char *path, char *name, int *options, int follow_link);
 char	*add_path(char *path, char *name);
 void	push_back(t_node **head, t_node *node);
 void	push_front(t_node **head, t_node *node);
 void	free_list(t_node **head);
 
-void	insert_and_sort(t_node **head, t_node *node, int *options);
+void	sort(t_node **head, t_node **tail, int *options);
+void	append(t_node **head, t_node **tail, t_node *tmp);
+void	lst_join(t_node **head1, t_node **tail1, t_node **head2, t_node **tail2);
+//void	insert_and_sort(t_node **head, t_node *node, int *options);
 int		cmp(t_node *node1, t_node *node2, int *options);
 int		cmp_lex(char *s1, char *s2, int rev);
 int		cmp_time(time_t a, time_t b, char **name, int rev);

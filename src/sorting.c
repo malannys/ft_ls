@@ -18,8 +18,8 @@
 int		cmp_lex(char *s1, char *s2, int rev)
 {
 	if (rev)
-		return (ft_strcmp(s1, s2) >= 0);
-	return(ft_strcmp(s1, s2) <= 0);
+		return (ft_strcmp(s2, s1));
+	return (ft_strcmp(s1, s2));
 }
 
 /*
@@ -31,11 +31,11 @@ int		cmp_lex(char *s1, char *s2, int rev)
 */
 int		cmp_time(time_t a, time_t b, char **name, int rev)
 {
-	if (a == b)
+	if (a - b == 0)
 		return (cmp_lex(name[0], name[1], rev));
 	if (rev)
-		return (a < b ? 1 : 0);
-	return (a > b ? 1 : 0);
+		return (a - b);
+	return (b - a);
 }
 
 /*
@@ -43,11 +43,11 @@ int		cmp_time(time_t a, time_t b, char **name, int rev)
 */
 int		cmp_size(off_t a, off_t b, char **name, int rev)
 {
-	if (a == b)
+	if (a - b == 0)
 		return (cmp_lex(name[0], name[1], rev));
 	if (rev)
-		return (a < b ? 1 : 0);
-	return (a > b ? 1 : 0);
+		return (a - b);
+	return (b - a);
 }
 
 int		cmp(t_node *node1, t_node *node2, int *options)
@@ -72,7 +72,7 @@ int		cmp(t_node *node1, t_node *node2, int *options)
 		return (cmp_lex(node1->name, node2->name, rev));
 }
 
-void	insert_and_sort(t_node **head, t_node *node, int *options)
+/*void	insert_and_sort(t_node **head, t_node *node, int *options)
 {
 	t_node	*tmp;
 	t_node	*swap;
@@ -97,4 +97,66 @@ void	insert_and_sort(t_node **head, t_node *node, int *options)
 			prev->next = swap;
 		prev = swap;
 	}
+}*/
+
+void	lst_join(t_node **head1, t_node **tail1, t_node **head2, t_node **tail2)
+{
+	if (!(*head1 || *head2))
+		return ;
+	if (!*head1)
+	{
+		*head1 = *head2;
+		*tail1 = *tail2;
+	}
+	else if (!*head2)
+	{
+		*head2 = *head1;
+		*tail2 = *tail1;
+	}
+	else
+		(*tail1)->next = *head2;
+}
+
+void	append(t_node **head, t_node **tail, t_node *tmp)
+{
+	if (!tmp)
+		return ;
+	if (!*head)
+		*head = tmp;
+	else
+		(*tail)->next = tmp;
+	*tail = tmp;
+}
+
+void	sort(t_node **head, t_node **tail, int *options)
+{
+	t_node	*less_head = NULL;
+	t_node	*less_tail = NULL;
+	t_node	*equ_head = NULL;
+	t_node	*equ_tail = NULL;
+	t_node	*lar_head = NULL;
+	t_node	*lar_tail = NULL;
+	t_node	*tmp = *head;
+	t_node	*pivot = *head;
+	int		compare;
+
+	if (tmp == NULL)
+		return ;
+	while (tmp != NULL)
+	{
+		compare = cmp(tmp, pivot, options);
+		if (compare < 0)
+			append(&less_head, &less_tail, tmp);
+		else if (compare > 0)
+			append(&lar_head, &lar_tail, tmp);
+		else
+			append(&equ_head, &equ_tail, tmp);
+		tmp = tmp->next;
+	}
+	sort(&less_head, &less_tail, options);
+	sort(&lar_head, &lar_tail, options);
+	lst_join(&less_head, &less_tail, &equ_head, &equ_tail);
+	lst_join(&less_head, &equ_tail, &lar_head, &lar_tail);
+	*head = less_head;
+	*tail = lar_tail;
 }

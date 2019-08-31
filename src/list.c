@@ -41,7 +41,7 @@ void	push_front(t_node **head, t_node *node)
 	*head = node;
 }
 
-t_node	*add_node(char *path, char *name, int *options, int follow_link)
+t_node	*create_node(char *path, char *name, int *options, int follow_link)
 {
 	t_node	*node;
 	int		failed;
