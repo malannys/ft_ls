@@ -6,7 +6,7 @@
 #    By: malannys <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/08/21 15:59:28 by malannys          #+#    #+#              #
-#    Updated: 2019/08/24 20:46:02 by abartole         ###   ########.fr        #
+#    Updated: 2019/09/01 20:19:55 by malannys         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,9 @@ $(OBJ): $(OBJDIR)%.o: $(SRCDIR)%.c $(OBJDIR)
 
 $(LIB):
 	make -C $(LIBDIR)
+
+debug1:
+	$(CC) -g $(CFLAGS) $(SRC) libft/ft_strlen.c libft/ft_strcmp.c libft/ft_strcpy.c libft/ft_strdup.c libft/ft_strjoin.c libft/ft_bzero.c libft/ft_memcpy.c libft/ft_putchar_fd.c libft/ft_putendl.c libft/ft_putstr.c libft/ft_putstr_fd.c libft/ft_strcat.c libft/ft_strnew.c libft/ft_memset.c libft/ft_putendl_fd.c -I$(INCDIR) -I$(LIBINCDIR) -o $(NAME)
 
 debug:
 	$(CC) -g $(CFLAGS) $(SRC) -I$(INCDIR) -I$(LIBINCDIR) $(LIB) -o $(NAME)

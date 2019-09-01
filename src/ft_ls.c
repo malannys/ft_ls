@@ -110,8 +110,8 @@ void	read_args(int ac, char **av, int *options, int arg)
 		if (tmp)
 			write(1, "\n", 1);
 	}
-	free(head_dir);
-	free(head_file);
+	free_list(&head_dir);
+	free_list(&head_file);
 }
 
 int		main(int ac, char **av)
