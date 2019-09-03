@@ -6,7 +6,7 @@
 #    By: malannys <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/22 01:43:36 by malannys          #+#    #+#              #
-#    Updated: 2019/08/24 17:50:25 by malannys         ###   ########.fr        #
+#    Updated: 2019/09/03 20:45:44 by abartole         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,16 +32,16 @@ CC := gcc
 all: $(NAME)
 
 $(NAME): $(OBJ) $(HDR)
-	ar rc $@ $(OBJ)
-	ranlib $@
+	@ar rc $@ $(OBJ)
+	@ranlib $@
 
 %.o : %.c
-	$(CC) $(CFLAGS) -I$(INC) -c $?
+	@$(CC) $(CFLAGS) -I$(INC) -c $?
 
 clean:
-	rm -f $(OBJ)
+	@rm -f $(OBJ)
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 re: fclean all

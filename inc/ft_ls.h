@@ -6,7 +6,7 @@
 /*   By: malannys <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 19:16:46 by malannys          #+#    #+#             */
-/*   Updated: 2019/08/24 20:46:29 by abartole         ###   ########.fr       */
+/*   Updated: 2019/09/03 20:53:14 by abartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,13 @@ typedef struct	s_node
 	struct s_node	*tail;
 }				t_node;
 
-int		opt_parser(int ac, char **av, int *options); // options parser
+/*
+** Parsing options
+*/
+
+void	check_options(char *str, int *options);
+void	check_all_flags(int *options);
+int		opt_parser(int ac, char **av, int *options);
 
 void	read_args(int ac, char **av, int *options, int arg);
 void	read_dir(char *path, t_node *node, int *options);
