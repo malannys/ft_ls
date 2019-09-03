@@ -6,7 +6,7 @@
 #    By: malannys <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/08/21 15:59:28 by malannys          #+#    #+#              #
-#    Updated: 2019/09/03 20:51:47 by abartole         ###   ########.fr        #
+#    Updated: 2019/09/03 22:36:38 by abartole         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,14 @@ OBJDIR := ./obj/
 INCDIR := ./inc/
 
 # Srcs, objs
-SRCNAMES := ft_ls.c sorting.c list.c print.c error_handling.c options_parser.c check_options.c
+SRCNAMES := ft_ls.c sorting.c list.c print.c error_handling.c options_parser.c check_options.c \
+	print_column.c \
+	print_long.c \
+	print_string.c \
+	type_perm.c \
+	get_maxlen.c \
+	for_long_format.c
+
 SRC := $(addprefix $(SRCDIR), $(SRCNAMES))
 OBJ := $(addprefix $(OBJDIR), $(SRCNAMES:.c=.o))
 

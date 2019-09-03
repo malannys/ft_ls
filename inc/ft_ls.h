@@ -6,7 +6,7 @@
 /*   By: malannys <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 19:16:46 by malannys          #+#    #+#             */
-/*   Updated: 2019/09/03 21:56:38 by abartole         ###   ########.fr       */
+/*   Updated: 2019/09/03 22:33:59 by abartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # include <grp.h>
 # include <sys/xattr.h>
 # include <time.h>
+# include <sys/ioctl.h>
+# include <sys/acl.h>
 
 #include "libft.h"
 
@@ -62,6 +64,19 @@
 // -L	Follow all symbolic links to final target and list the file or directory the link references rather than the link itself.  This option cancels the -P option.
 // -P	If argument is a symbolic link, list the link itself rather than the object the link references.  This option cancels the -H and -L options.
 
+# define MAX(a, b) (((a) > (b)) ? (a) : (b))
+
+typedef enum	e_maxlen
+{
+	MAX_INO,
+	MAX_LNK,
+	MAX_UID,
+	MAX_GID,
+	MAX_SZ,
+	MAX_PWD,
+	MAX_GP
+}				t_maxlen;
+
 typedef struct	s_node
 {
 	char			name[1024];
@@ -71,6 +86,12 @@ typedef struct	s_node
 	struct s_node	*tail;
 }				t_node;
 
+typedef struct	s_point
+{
+	int	x;
+	int	y;
+}				t_point;
+
 /*
 ** Parsing options
 */
@@ -78,6 +99,33 @@ typedef struct	s_node
 void	check_options(char *str, int *options);
 void	check_all_flags(int *options);
 int		opt_parser(int ac, char **av, int *options);
+
+/*
+** Printing
+*/
+
+void	print_long(t_node *tmp, int *options);
+void	print_string(t_node *tmp);
+void	print_default(t_node *head);
+void	print_column(t_node *tmp);
+void	print(char *path, t_node *head, int *options);
+
+/*
+** Information for long format
+*/
+
+void	print_attr(t_node *tmp, int	*options);
+void	type_perm(char *path, mode_t st_mode);
+int		get_maxlen_name(t_node *tmp);
+void	get_maxlen_user(t_node *tmp, int *max, int *options);
+void	get_maxlen_group(t_node *tmp, int *max, int *options);
+void	get_maxlen(t_node *tmp, int *max, int *options);
+void	get_time(t_node *tmp, int *options);
+void	get_name(t_node *tmp, int *options, int *maxlen);
+void	get_group(t_node *tmp, int *options, int *maxlen);
+void	get_size(t_node *tmp, int maxlen);
+int		nb_len(long long n);
+
 
 void	read_args(int ac, char **av, int *options, int arg);
 void	read_dir(char *path, t_node *node, int *options);
@@ -100,7 +148,5 @@ int		cmp_size(off_t a, off_t b, char **name, int rev);
 
 void	error(int error_status, char *name);
 void	print_errormsg(char *func, char *name);
-
-void	print(char *path, t_node *head, int *options);
 
 #endif

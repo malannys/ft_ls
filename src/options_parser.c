@@ -6,7 +6,7 @@
 /*   By: abartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 20:32:16 by abartole          #+#    #+#             */
-/*   Updated: 2019/09/03 22:07:21 by abartole         ###   ########.fr       */
+/*   Updated: 2019/09/03 22:12:49 by abartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	error_managment(char *src, char *str, int error)
 		ft_putchar_fd(*str, 2);
 		ft_putchar_fd('\n', 2);
 		ft_putendl_fd(s, 2);
-		exit (1);
+		exit(1);
 	}
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malannys <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/17 15:19:37 by malannys          #+#    #+#             */
-/*   Updated: 2019/08/30 22:25:54 by malannys         ###   ########.fr       */
+/*   Created: 2019/08/27 19:57:11 by abartole          #+#    #+#             */
+/*   Updated: 2019/09/03 22:28:54 by abartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,20 @@
 
 void	print(char *path, t_node *head, int *options)
 {
-	t_node	*tmp;
-
-	tmp = head;
-	if (path && (FLAG_RR && *options))
+	if (path && (FLAG_RR & *options))
 	{
-		ft_putstr(path);
-		write(1, ":\n", 2);
+		ft_putstr_fd(path, 1);
+		write(1, ":\n", 3);
 	}
-	if (!head) // don't forget to check for null!!
+	if (!head)
 		return ;
-	if (FLAG_ONE & *options)
-	{
-		while (tmp)
-		{
-			ft_putendl_fd(tmp->name, 1);
-			tmp = tmp->next;
-		}
-	}
-	if (0) // for not having unused parameter error
-		ft_putstr(path);
+	if (FLAG_M & *options)
+		print_string(head);
+	else if ((FLAG_L & *options) || (FLAG_G & *options) ||
+			(FLAG_O & *options) || (FLAG_L & *options))
+		print_long(head, options);
+	else if (FLAG_ONE & *options)
+		print_column(head);
+	else
+		print_default(head);
 }
