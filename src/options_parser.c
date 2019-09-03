@@ -6,7 +6,7 @@
 /*   By: abartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 20:32:16 by abartole          #+#    #+#             */
-/*   Updated: 2019/09/02 22:08:12 by abartole         ###   ########.fr       */
+/*   Updated: 2019/09/03 22:07:21 by abartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,57 @@ static int	error_managment(char *src, char *str, int error)
 {
 	char	*s;
 
-	s = "usage: ft_ls [-1AaBCcdeFfGgilmnopqRrSTtuUvw@H] [file ...]";
+	s = "usage: ft_ls [-1AaCcfglmnoRrSTtuU@H] [file ...]";
 	if (error == 1)
 	{
 		ft_putstr_fd(src, 2);
 		ft_putstr_fd(": illegal option -- ", 2);
-		//ft_putstr_fd("ft_ls: illegal option -- ", 2);
 		ft_putchar_fd(*str, 2);
 		ft_putchar_fd('\n', 2);
 		ft_putendl_fd(s, 2);
 		exit (1);
 	}
 	return (0);
+}
+
+static void	check_all_flags1(int *options)
+{
+	if (*options & FLAG_F)
+	{
+		*options |= FLAG_A;
+		*options &= ~(FLAG_SS);
+	}
+	if (*options & FLAG_SS)
+	{
+		*options &= ~(FLAG_U);
+		*options &= ~(FLAG_UU);
+		*options &= ~(FLAG_C);
+	}
+}
+
+void		check_all_flags(int *options)
+{
+	if (!(*options & FLAG_L))
+	{
+		*options &= ~(FLAG_TT);
+		*options &= ~(FLAG_EA);
+	}
+	if (!((*options & FLAG_L) || (*options & FLAG_T)))
+	{
+		*options &= ~(FLAG_C);
+		*options &= ~(FLAG_U);
+		*options &= ~(FLAG_UU);
+	}
+	if ((*options & FLAG_F) || (*options & FLAG_SS))
+	{
+		*options &= ~(FLAG_T);
+		*options &= ~(FLAG_C);
+		*options &= ~(FLAG_U);
+		*options &= ~(FLAG_UU);
+	}
+	if (*options & FLAG_F)
+		*options &= ~(FLAG_R);
+	check_all_flags1(options);
 }
 
 static int	get_index(char *str, int c)
@@ -50,7 +89,7 @@ static int	get_options(char *src, char *str, int *options)
 
 	while (*(++str))
 	{
-		if ((n = get_index("1AaBCcdeFfGgilmnopqRrSTtuUvw@iH", *str)) == -1)
+		if ((n = get_index("1AaCcfglmnoRrSTtuU@H", *str)) == -1)
 			error_managment(src, str, 1);
 		*options |= (1 << n);
 		check_options(str, options);
