@@ -34,6 +34,8 @@ void	dir_recursive(t_node **head, int *options)
 				&& S_ISDIR(node->stats.st_mode))
 		{
 			write(1, "\n", 1);
+			ft_putstr_fd(node->path, 1);
+			write(1, ":\n", 3);
 			read_dir(node->path, node, options);
 		}
 		node = node->next;
@@ -105,7 +107,11 @@ void	read_args(int ac, char **av, int *options, int arg)
 		if (arg == ac - 1)
 			read_dir(NULL, tmp, options);
 		else
+		{
+			ft_putstr_fd(tmp->name, 1);
+			write(1, ":\n", 3);
 			read_dir(tmp->name, tmp, options);
+		}
 		tmp = tmp->next;
 		if (tmp)
 			write(1, "\n", 1);

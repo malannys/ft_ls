@@ -14,7 +14,7 @@
 
 void	print(char *path, t_node *head, int *options)
 {
-	if (path && (FLAG_RR & *options))
+	if (path && 0)
 	{
 		ft_putstr_fd(path, 1);
 		write(1, ":\n", 3);

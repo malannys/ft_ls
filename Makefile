@@ -56,10 +56,14 @@ $(LIB):
 	@make -C $(LIBDIR)
 
 debug1:
-	$(CC) -g $(CFLAGS) $(SRC) libft/ft_strlen.c libft/ft_strcmp.c libft/ft_strcpy.c libft/ft_strdup.c libft/ft_strjoin.c libft/ft_bzero.c libft/ft_memcpy.c libft/ft_putchar_fd.c libft/ft_putendl.c libft/ft_putstr.c libft/ft_putstr_fd.c libft/ft_strcat.c libft/ft_strnew.c libft/ft_memset.c libft/ft_putendl_fd.c -I$(INCDIR) -I$(LIBINCDIR) -o $(NAME)
+	$(CC) -g $(CFLAGS) $(SRC) libft/ft_strlen.c libft/ft_strcpy.c libft/ft_strdup.c \
+	libft/ft_strjoin.c libft/ft_bzero.c libft/ft_memcpy.c libft/ft_putchar_fd.c libft/ft_putendl.c \
+	libft/ft_putstr.c libft/ft_putstr_fd.c libft/ft_strcat.c libft/ft_strnew.c libft/ft_memset.c libft/ft_memdel.c \
+	libft/ft_putnbr.c libft/ft_strdel.c libft/ft_strncat.c libft/ft_strncpy.c libft/ft_putchar.c libft/ft_memalloc.c \
+	libft/ft_putendl_fd.c libft/ft_quick_sort.c libft/ft_strcmp.c -I$(INCDIR) -I$(LIBINCDIR) -o $(NAME)
 
 debug:
-	$(CC) -g $(CFLAGS) $(SRC) -I$(INCDIR) -I$(LIBINCDIR) $(LIB) libft/ft_quick_sort.c -o $(NAME)
+	$(CC) -g $(CFLAGS) $(SRC) -I$(INCDIR) -I$(LIBINCDIR) $(LIB) -o $(NAME)
 
 clean:
 	@rm -rf $(OBJDIR)

@@ -46,7 +46,7 @@ char			*ft_strsub(char const *s, unsigned int start, size_t len);
 char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strtrim(char const *s);
 char			**ft_strsplit(char const *s, char c);
-void			ft_quick_sort(char **arr, int low, int high);
+int				ft_quick_sort(char **arr, int low, int high);
 
 size_t			ft_strlen(const char *s);
 char			*ft_strcpy(char *dst, const char *src);
