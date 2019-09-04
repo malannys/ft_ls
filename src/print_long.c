@@ -6,13 +6,13 @@
 /*   By: abartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/25 16:36:33 by abartole          #+#    #+#             */
-/*   Updated: 2019/09/03 22:32:58 by abartole         ###   ########.fr       */
+/*   Updated: 2019/09/04 21:14:32 by abartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static void	get_symlink(nlink_t st_nlink, int maxlen)
+void		get_symlink(nlink_t st_nlink, int maxlen)
 {
 	int	len;
 
@@ -44,21 +44,21 @@ static int	get_total(t_node *head, int *options)
 	return (blocks);
 }
 
-static void	print_total(t_node *tmp, int *options)
+void		print_total(t_node *tmp, int *options)
 {
 	ft_putstr("total ");
 	ft_putnbr(get_total(tmp, options));
 	write(1, "\n", 1);
 }
 
-static void	print_link(t_node *tmp)
+void		print_link(t_node *tmp)
 {
 	char	link[256];
 	int		i;
 
 	ft_bzero(link, 256);
 	i = readlink(tmp->path, link, 255);
-	if ( i < 0 && i > tmp->stats.st_size + 1)
+	if (i < 0 && i > tmp->stats.st_size + 1)
 		error(READLINK_FAILURE, tmp->name);
 	ft_putstr(tmp->name);
 	link[i] = '\0';
@@ -66,7 +66,7 @@ static void	print_link(t_node *tmp)
 	ft_putstr(link);
 }
 
-static void	print_info(t_node *tmp, int *maxlen, int *options)
+void		print_info(t_node *tmp, int *maxlen, int *options)
 {
 	type_perm(tmp->path, tmp->stats.st_mode);
 	get_symlink(tmp->stats.st_nlink, maxlen[MAX_LNK]);
@@ -83,18 +83,4 @@ static void	print_info(t_node *tmp, int *maxlen, int *options)
 	write(1, "\n", 1);
 	if (FLAG_EA & *options)
 		print_attr(tmp, options);
-}
-
-void		print_long(t_node *tmp, int *options)
-{
-	int		maxlen[7];
-
-	ft_bzero(maxlen, sizeof(int) * 7);
-	get_maxlen(tmp, maxlen, options);
-	print_total(tmp, options);
-	while (tmp)
-	{
-		print_info(tmp, maxlen, options);
-		tmp = tmp->next;
-	}
 }

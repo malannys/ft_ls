@@ -6,16 +6,16 @@
 /*   By: abartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/02 19:33:56 by abartole          #+#    #+#             */
-/*   Updated: 2019/09/03 22:29:16 by abartole         ###   ########.fr       */
+/*   Updated: 2019/09/04 21:00:29 by abartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int	get_number(t_node *head)
+static int	get_number(t_node *head)
 {
 	int		i;
-	t_node *tmp;
+	t_node	*tmp;
 
 	tmp = head;
 	i = 0;
@@ -27,7 +27,7 @@ int	get_number(t_node *head)
 	return (i);
 }
 
-void	print_spaces(int n)
+static void	print_spaces(int n)
 {
 	int i;
 
@@ -39,7 +39,7 @@ void	print_spaces(int n)
 	}
 }
 
-void	print_columns(t_node *head, t_point max, t_point index)
+static void	print_columns(t_node *head, t_point max, t_point index)
 {
 	t_node	*tmp;
 	int		row;
@@ -65,8 +65,7 @@ void	print_columns(t_node *head, t_point max, t_point index)
 	}
 }
 
-
-void	print_default(t_node *head)
+void		print_default(t_node *head)
 {
 	t_point			max;
 	t_point			index;
@@ -90,7 +89,7 @@ void	print_default(t_node *head)
 	print_columns(head, max, index);
 }
 
-void	print_column(t_node *tmp)
+void		print_column(t_node *tmp)
 {
 	while (tmp)
 	{

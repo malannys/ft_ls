@@ -6,7 +6,7 @@
 /*   By: malannys <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 19:16:46 by malannys          #+#    #+#             */
-/*   Updated: 2019/09/03 22:33:59 by abartole         ###   ########.fr       */
+/*   Updated: 2019/09/04 21:13:08 by abartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,10 @@ void	print(char *path, t_node *head, int *options);
 ** Information for long format
 */
 
+void	print_link(t_node *tmp);
+void	print_total(t_node *head, int *options);
+void	get_symlink(nlink_t st_nlink, int maxlen);
+void	print_info(t_node *tmp, int *maxlen, int *options);
 void	print_attr(t_node *tmp, int	*options);
 void	type_perm(char *path, mode_t st_mode);
 int		get_maxlen_name(t_node *tmp);
@@ -146,6 +150,11 @@ int		cmp_lex(char *s1, char *s2, int rev);
 int		cmp_time(time_t a, time_t b, char **name, int rev);
 int		cmp_size(off_t a, off_t b, char **name, int rev);
 
+/*
+** Error handling
+*/
+
+int		error_managment(char *src, char *str, int error);
 void	error(int error_status, char *name);
 void	print_errormsg(char *func, char *name);
 

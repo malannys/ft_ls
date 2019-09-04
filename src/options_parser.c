@@ -6,28 +6,11 @@
 /*   By: abartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 20:32:16 by abartole          #+#    #+#             */
-/*   Updated: 2019/09/03 22:12:49 by abartole         ###   ########.fr       */
+/*   Updated: 2019/09/04 20:58:26 by abartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-
-static int	error_managment(char *src, char *str, int error)
-{
-	char	*s;
-
-	s = "usage: ft_ls [-1AaCcfglmnoRrSTtuU@H] [file ...]";
-	if (error == 1)
-	{
-		ft_putstr_fd(src, 2);
-		ft_putstr_fd(": illegal option -- ", 2);
-		ft_putchar_fd(*str, 2);
-		ft_putchar_fd('\n', 2);
-		ft_putendl_fd(s, 2);
-		exit(1);
-	}
-	return (0);
-}
 
 static void	check_all_flags1(int *options)
 {
@@ -97,7 +80,7 @@ static int	get_options(char *src, char *str, int *options)
 	return (1);
 }
 
-int	opt_parser(int ac, char **av, int *options)
+int			opt_parser(int ac, char **av, int *options)
 {
 	int i;
 

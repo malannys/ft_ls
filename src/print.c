@@ -6,11 +6,25 @@
 /*   By: abartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 19:57:11 by abartole          #+#    #+#             */
-/*   Updated: 2019/09/03 22:28:54 by abartole         ###   ########.fr       */
+/*   Updated: 2019/09/04 21:14:58 by abartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+void	print_long(t_node *tmp, int *options)
+{
+	int		maxlen[7];
+
+	ft_bzero(maxlen, sizeof(int) * 7);
+	get_maxlen(tmp, maxlen, options);
+	print_total(tmp, options);
+	while (tmp)
+	{
+		print_info(tmp, maxlen, options);
+		tmp = tmp->next;
+	}
+}
 
 void	print(char *path, t_node *head, int *options)
 {

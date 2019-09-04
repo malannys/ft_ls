@@ -3,26 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   error_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malannys <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/17 15:16:49 by malannys          #+#    #+#             */
-/*   Updated: 2019/08/21 19:40:04 by malannys         ###   ########.fr       */
+/*   Created: 2019/09/04 20:56:53 by abartole          #+#    #+#             */
+/*   Updated: 2019/09/04 20:57:22 by abartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
+int		error_managment(char *src, char *str, int error)
+{
+	char	*s;
+
+	s = "usage: ft_ls [-1AaCcfglmnoRrSTtuU@H] [file ...]";
+	if (error == 1)
+	{
+		ft_putstr_fd(src, 2);
+		ft_putstr_fd(": illegal option -- ", 2);
+		ft_putchar_fd(*str, 2);
+		ft_putchar_fd('\n', 2);
+		ft_putendl_fd(s, 2);
+		exit(1);
+	}
+	return (0);
+}
+
 void	print_errormsg(char *func, char *name)
 {
 	char	*errorbuff;
 
-	ft_putstr("ft_ls: ");
-	ft_putstr(func);
-	ft_putstr(": ");
-	ft_putstr(name);
-	ft_putstr(": ");
+	ft_putstr_fd("ft_ls: ", 2);
+	ft_putstr_fd(func, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(name, 2);
+	ft_putstr_fd(": ", 2);
 	if ((errorbuff = strerror(errno)))
-		ft_putstr(errorbuff);
+		ft_putstr_fd(errorbuff, 2);
 	write(2, "\n", 1);
 }
 

@@ -6,13 +6,13 @@
 /*   By: abartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 23:29:55 by abartole          #+#    #+#             */
-/*   Updated: 2019/08/31 23:46:58 by abartole         ###   ########.fr       */
+/*   Updated: 2019/09/04 21:16:03 by abartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	get_size2(t_node *tmp, int maxlen)
+static void	get_size2(t_node *tmp, int maxlen)
 {
 	int	len;
 
@@ -25,7 +25,7 @@ void	get_size2(t_node *tmp, int maxlen)
 	ft_putnbr(tmp->stats.st_size);
 }
 
-void	get_size(t_node *tmp, int maxlen)
+void		get_size(t_node *tmp, int maxlen)
 {
 	int	max;
 	int	min;
@@ -49,35 +49,7 @@ void	get_size(t_node *tmp, int maxlen)
 	write(1, " ", 1);
 }
 
-void	get_group(t_node *tmp, int *options, int *maxlen)
-{
-	int				len;
-	int				i;
-	struct group	*gp;
-
-	gp = getgrgid(tmp->stats.st_gid);
-	if (!gp)
-		error(GETGRGID_FAILURE, tmp->name);
-	if (FLAG_N & *options)
-	{
-		len = nb_len(gp->gr_gid);
-		i = maxlen[MAX_GID] + 2;
-		ft_putnbr(gp->gr_gid);
-	}
-	else
-	{
-		len = ft_strlen(gp->gr_name);
-		i = maxlen[MAX_GP] + 2;
-		write(1, gp->gr_name, len);
-	}
-	while (len < i)
-	{
-		write(1, " ", 1);
-		len++;
-	}
-}
-
-void	get_name(t_node *tmp, int *options, int *maxlen)
+void		get_name(t_node *tmp, int *options, int *maxlen)
 {
 	int				len;
 	int				i;
@@ -105,7 +77,7 @@ void	get_name(t_node *tmp, int *options, int *maxlen)
 	}
 }
 
-time_t	get_correct_time(t_node *tmp, int *options)
+time_t		get_correct_time(t_node *tmp, int *options)
 {
 	time_t	time_sec;
 
@@ -120,7 +92,7 @@ time_t	get_correct_time(t_node *tmp, int *options)
 	return (time_sec);
 }
 
-void	get_time(t_node *tmp, int *options)
+void		get_time(t_node *tmp, int *options)
 {
 	char	*print_time;
 	char	*tmp_time;
