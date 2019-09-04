@@ -6,7 +6,7 @@
 /*   By: malannys <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 19:16:46 by malannys          #+#    #+#             */
-/*   Updated: 2019/09/04 21:13:08 by abartole         ###   ########.fr       */
+/*   Updated: 2019/09/04 23:56:14 by abartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@
 # define FLAG_SS 0x2000 //sort by size (largest first)
 # define FLAG_TT 0x4000 // Display complete time information for the file, including month, day, hour, minute, second, and year.
 # define FLAG_T 0x8000 //sort by time modified (recent first) before lexicographical
-# define FLAG_U 0x100000 //sort by time of last access for -t or -l
+# define FLAG_U 0x10000 //sort by time of last access for -t or -l
 # define FLAG_UU 0x20000 //sort by time of creation for -t or -l
 # define FLAG_EA 0x40000 // Display extended attribute keys and sizes in long (-l) output.
 # define FLAG_HH 0x80000 // Symbolic links on the command line are followed.  This option is assumed if none of the -F, -d, or -l options are specified.
