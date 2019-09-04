@@ -58,10 +58,6 @@ void	read_dir(char *path, t_node *node, int *options)
 	while ((dp = readdir(dirp)))
 		if (check_options_a(dp->d_name, options))
 			push_back(&head, create_node(node->path, dp->d_name, options, 0));
-	if (errno)
-		error(READDIR_FAILURE, node->name);
-	if (closedir(dirp) == -1)
-		error(CLOSEDIR_FAILURE, node->name);
 	if (!(FLAG_F & *options))
 		sort(&head, (head ? &head->tail : NULL), options);
 	print(path, head, options);
