@@ -129,6 +129,9 @@ int		main(int ac, char **av)
 		read_dir(NULL, &tmp, &options);
 	}
 	else
+	{
+		ft_quick_sort(&av[i], 0, ac - i - 1);
 		read_args(ac, av, &options, i);
+	}
 	return (0);
 }
