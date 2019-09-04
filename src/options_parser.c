@@ -6,7 +6,7 @@
 /*   By: abartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 20:32:16 by abartole          #+#    #+#             */
-/*   Updated: 2019/09/04 20:58:26 by abartole         ###   ########.fr       */
+/*   Updated: 2019/09/04 23:45:21 by abartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void		check_all_flags(int *options)
 {
 	if (!(*options & FLAG_L))
 	{
+		*options |= FLAG_HH;
 		*options &= ~(FLAG_TT);
 		*options &= ~(FLAG_EA);
 	}

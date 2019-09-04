@@ -6,7 +6,7 @@
 /*   By: abartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 21:00:14 by abartole          #+#    #+#             */
-/*   Updated: 2019/09/03 22:07:58 by abartole         ###   ########.fr       */
+/*   Updated: 2019/09/04 23:41:07 by abartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,11 @@ static void	check_options3(char *str, int *options)
 {
 	if (*str == 'o')
 	{
-		*options &= ~(FLAG_L);
+		*options |= FLAG_L;
 		*options &= ~(FLAG_CC);
 		*options &= ~(FLAG_HH);
 		*options &= ~(FLAG_M);
 		*options &= ~(FLAG_ONE);
-		*options &= ~(FLAG_N);
-		*options &= ~(FLAG_G);
 	}
 	else if (*str == 'C')
 	{
@@ -39,23 +37,19 @@ static void	check_options2(char *str, int *options)
 {
 	if (*str == 'n')
 	{
-		*options &= ~(FLAG_L);
+		*options |= FLAG_L;
 		*options &= ~(FLAG_HH);
 		*options &= ~(FLAG_CC);
 		*options &= ~(FLAG_M);
 		*options &= ~(FLAG_ONE);
-		*options &= ~(FLAG_O);
-		*options &= ~(FLAG_G);
 	}
 	else if (*str == 'g')
 	{
-		*options &= ~(FLAG_L);
+		*options |= FLAG_L;
 		*options &= ~(FLAG_CC);
 		*options &= ~(FLAG_HH);
 		*options &= ~(FLAG_M);
 		*options &= ~(FLAG_ONE);
-		*options &= ~(FLAG_O);
-		*options &= ~(FLAG_N);
 	}
 	check_options3(str, options);
 }
@@ -87,6 +81,7 @@ static void	check_options1(char *str, int *options)
 
 void		check_options(char *str, int *options)
 {
+	*options |= FLAG_HH;
 	if (*str == 'l')
 	{
 		*options &= ~(FLAG_ONE);
