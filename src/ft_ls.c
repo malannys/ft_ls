@@ -62,6 +62,30 @@ void	read_dir(char *path, t_node *node, int *options)
 ** If there is only one arg, don't display the path
 */
 
+void	read_args_dir(int check, int *options,
+						t_node *head_dir, t_node *head_file)
+{
+	t_node	*tmp;
+
+	tmp = head_dir;
+	while (tmp)
+	{
+		if (!check)
+			read_dir(NULL, tmp, options);
+		else
+		{
+			ft_putstr_fd(tmp->name, 1);
+			write(1, ":\n", 3);
+			read_dir(tmp->name, tmp, options);
+		}
+		tmp = tmp->next;
+		if (tmp)
+			write(1, "\n", 1);
+	}
+	free_list(&head_dir);
+	free_list(&head_file);
+}
+
 void	read_args(int ac, char **av, int *options, int arg)
 {
 	int			i;
@@ -88,23 +112,7 @@ void	read_args(int ac, char **av, int *options, int arg)
 	print(NULL, head_file, options);
 	if (head_file && head_dir)
 		write(1, "\n", 1);
-	tmp = head_dir;
-	while (tmp)
-	{
-		if (arg == ac - 1)
-			read_dir(NULL, tmp, options);
-		else
-		{
-			ft_putstr_fd(tmp->name, 1);
-			write(1, ":\n", 3);
-			read_dir(tmp->name, tmp, options);
-		}
-		tmp = tmp->next;
-		if (tmp)
-			write(1, "\n", 1);
-	}
-	free_list(&head_dir);
-	free_list(&head_file);
+	read_args_dir(arg - ac + 1, options, head_dir, head_file);
 }
 
 int		main(int ac, char **av)

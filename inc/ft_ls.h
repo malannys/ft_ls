@@ -93,6 +93,15 @@ typedef struct	s_point
 }				t_point;
 
 /*
+** Main
+*/
+
+void	read_args(int ac, char **av, int *options, int arg);
+void	read_args_dir(int check, int *options, t_node *head_dir, t_node *head_file);
+void	read_dir(char *path, t_node *node, int *options);
+void	dir_recursive(t_node **head, int *options);
+
+/*
 ** Parsing options
 */
 
@@ -130,10 +139,9 @@ void	get_group(t_node *tmp, int *options, int *maxlen);
 void	get_size(t_node *tmp, int maxlen);
 int		nb_len(long long n);
 
-
-void	read_args(int ac, char **av, int *options, int arg);
-void	read_dir(char *path, t_node *node, int *options);
-void	dir_recursive(t_node **head, int *options);
+/*
+** List
+*/
 
 t_node	*create_node(char *path, char *name, int *options, int follow_link);
 void	push_back(t_node **head, t_node *node);
