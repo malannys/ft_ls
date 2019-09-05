@@ -25,6 +25,12 @@ static void	check_all_flags1(int *options)
 		*options &= ~(FLAG_UU);
 		*options &= ~(FLAG_C);
 	}
+	if (!isatty(1))
+	{
+		*options |= FLAG_ONE;
+		*options &= ~(FLAG_M);
+		*options &= ~(FLAG_CC);
+	}
 }
 
 void		check_all_flags(int *options)
