@@ -34,6 +34,8 @@ void	dir_recursive(t_node **head, int *options)
 				&& S_ISDIR(node->stats.st_mode))
 		{
 			write(1, "\n", 1);
+			ft_putstr_fd(node->path, 1);
+			write(1, ":\n", 3);
 			read_dir(node->path, node, options);
 		}
 		node = node->next;
@@ -56,10 +58,6 @@ void	read_dir(char *path, t_node *node, int *options)
 	while ((dp = readdir(dirp)))
 		if (check_options_a(dp->d_name, options))
 			push_back(&head, create_node(node->path, dp->d_name, options, 0));
-	if (errno)
-		error(READDIR_FAILURE, node->name);
-	if (closedir(dirp) == -1)
-		error(CLOSEDIR_FAILURE, node->name);
 	if (!(FLAG_F & *options))
 		sort(&head, (head ? &head->tail : NULL), options);
 	print(path, head, options);
@@ -105,7 +103,11 @@ void	read_args(int ac, char **av, int *options, int arg)
 		if (arg == ac - 1)
 			read_dir(NULL, tmp, options);
 		else
+		{
+			ft_putstr_fd(tmp->name, 1);
+			write(1, ":\n", 3);
 			read_dir(tmp->name, tmp, options);
+		}
 		tmp = tmp->next;
 		if (tmp)
 			write(1, "\n", 1);
@@ -129,6 +131,9 @@ int		main(int ac, char **av)
 		read_dir(NULL, &tmp, &options);
 	}
 	else
+	{
+		ft_quick_sort(&av[i], 0, ac - i - 1);
 		read_args(ac, av, &options, i);
+	}
 	return (0);
 }

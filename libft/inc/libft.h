@@ -6,7 +6,7 @@
 /*   By: malannys <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 01:43:49 by malannys          #+#    #+#             */
-/*   Updated: 2019/01/11 16:03:17 by malannys         ###   ########.fr       */
+/*   Updated: 2019/09/04 21:09:32 by malannys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ char			*ft_strsub(char const *s, unsigned int start, size_t len);
 char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strtrim(char const *s);
 char			**ft_strsplit(char const *s, char c);
+int				ft_quick_sort(char **arr, int low, int high);
 
 size_t			ft_strlen(const char *s);
 char			*ft_strcpy(char *dst, const char *src);

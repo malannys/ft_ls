@@ -55,9 +55,11 @@ t_node	*create_node(char *path, char *name, int *options, int follow_link)
 		failed = stat(node->path, &node->stats);
 	else
 		failed = lstat(node->path, &node->stats);
-	if (failed == -1)
+	if ((follow_link || (FLAG_L & *options) || (FLAG_SS & *options) || (FLAG_RR & *options) ||
+			(FLAG_T & *options)) && failed == -1)
 	{
-		error(LSTAT_FAILURE, name);
+		if (follow_link)
+			error(LSTAT_FAILURE, name);
 		free(node->path);
 		free(node);
 		return (NULL);
