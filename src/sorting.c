@@ -15,6 +15,7 @@
 /*
 ** Sort by lexicographic order
 */
+
 int		cmp_lex(char *s1, char *s2, int rev)
 {
 	if (rev)
@@ -29,6 +30,7 @@ int		cmp_lex(char *s1, char *s2, int rev)
 ** -u: last access
 ** -U: file creation
 */
+
 int		cmp_time(time_t a, time_t b, char **name, int rev)
 {
 	if (a - b == 0)
@@ -41,6 +43,7 @@ int		cmp_time(time_t a, time_t b, char **name, int rev)
 /*
 ** Sort by size (biggest first)
 */
+
 int		cmp_size(off_t a, off_t b, char **name, int rev)
 {
 	if ((a - b) < 0.0001)
@@ -50,87 +53,27 @@ int		cmp_size(off_t a, off_t b, char **name, int rev)
 	return (b - a);
 }
 
-int		cmp(t_node *node1, t_node *node2, int *options)
+int		cmp(t_node *n1, t_node *n2, int *options)
 {
 	int		rev;
 	char	*name[2];
 
-	name[0] = node1->name;
-	name[1] = node2->name;
+	name[0] = n1->name;
+	name[1] = n2->name;
 	rev = (FLAG_R & *options) ? 1 : 0;
 	if (FLAG_SS & *options)
-		return (cmp_size(node1->stats.st_size, node2->stats.st_size, name, rev));
+		return (cmp_size(n1->stats.st_size, n2->stats.st_size, name, rev));
 	else if ((FLAG_U & *options) && (FLAG_T & *options))
-		return (cmp_time(node1->stats.st_atime, node2->stats.st_atime, name, rev));
+		return (cmp_time(n1->stats.st_atime, n2->stats.st_atime, name, rev));
 	else if ((FLAG_UU & *options) && (FLAG_T & *options))
-		return (cmp_time(node1->stats.st_birthtime, node2->stats.st_birthtime, name, rev));
+		return (cmp_time(n1->stats.st_birthtime,
+					n2->stats.st_birthtime, name, rev));
 	else if ((FLAG_C & *options) && (FLAG_T & *options))
-		return (cmp_time(node1->stats.st_ctime, node2->stats.st_ctime, name, rev));
+		return (cmp_time(n1->stats.st_ctime, n2->stats.st_ctime, name, rev));
 	else if (FLAG_T & *options)
-		return (cmp_time(node1->stats.st_mtime, node2->stats.st_mtime, name, rev));
+		return (cmp_time(n1->stats.st_mtime, n2->stats.st_mtime, name, rev));
 	else
-		return (cmp_lex(node1->name, node2->name, rev));
-}
-
-/*void	insert_and_sort(t_node **head, t_node *node, int *options)
-{
-	t_node	*tmp;
-	t_node	*swap;
-	t_node	*prev;
-
-	if (FLAG_F & *options)
-	{
-		push_back(head, node);
-		return ;
-	}
-	push_front(head, node);
-	prev = *head;
-	tmp = *head;
-	while (tmp && tmp->next && !cmp(tmp, tmp->next, options))
-	{
-		swap = tmp->next;
-		tmp->next = swap->next;
-		swap->next = tmp;
-		if (tmp == *head)
-			*head = swap;
-		else
-			prev->next = swap;
-		prev = swap;
-	}
-}*/
-
-void	lst_join(t_node **head1, t_node **tail1, t_node **head2, t_node **tail2)
-{
-	if (!(*head1 || *head2))
-		return ;
-	if (!*head1)
-	{
-		(*tail2)->next = NULL;
-		*head1 = *head2;
-		*tail1 = *tail2;
-	}
-	else if (!*head2)
-	{
-		(*tail1)->next = NULL;
-		*head2 = *head1;
-		*tail2 = *tail1;
-	}
-	else
-	{
-		(*tail1)->next = *head2;
-		(*tail2)->next = NULL;
-	}
-}
-
-void	append(t_node **head, t_node **tail, t_node *tmp)
-{
-	if (!tmp)
-		return ;
-	if (!*head)
-		*head = tmp;
-	else
-		(*tail)->next = tmp;
-	*tail = tmp;
+		return (cmp_lex(n1->name, n2->name, rev));
 }
 
 void	sort(t_node **head, t_node **tail, int *options)

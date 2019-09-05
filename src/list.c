@@ -29,7 +29,7 @@ void	push_back(t_node **head, t_node *node)
 	}
 }
 
-void	push_front(t_node **head, t_node *node)
+/*void	push_front(t_node **head, t_node *node)
 {
 	if (!node)
 		return ;
@@ -39,7 +39,7 @@ void	push_front(t_node **head, t_node *node)
 	else
 		node->tail = node;
 	*head = node;
-}
+}*/
 
 t_node	*create_node(char *path, char *name, int *options, int follow_link)
 {
@@ -69,6 +69,40 @@ t_node	*create_node(char *path, char *name, int *options, int follow_link)
 	return (node);
 }
 
+void	lst_join(t_node **head1, t_node **tail1, t_node **head2, t_node **tail2)
+{
+	if (!(*head1 || *head2))
+		return ;
+	if (!*head1)
+	{
+		(*tail2)->next = NULL;
+		*head1 = *head2;
+		*tail1 = *tail2;
+	}
+	else if (!*head2)
+	{
+		(*tail1)->next = NULL;
+		*head2 = *head1;
+		*tail2 = *tail1;
+	}
+	else
+	{
+		(*tail1)->next = *head2;
+		(*tail2)->next = NULL;
+	}
+}
+
+void	append(t_node **head, t_node **tail, t_node *tmp)
+{
+	if (!tmp)
+		return ;
+	if (!*head)
+		*head = tmp;
+	else
+		(*tail)->next = tmp;
+	*tail = tmp;
+}
+
 void	free_list(t_node **head)
 {
 	t_node	*tmp;
@@ -83,25 +117,4 @@ void	free_list(t_node **head)
 		prev = tmp;
 	}
 	*head = NULL;
-}
-
-char	*add_path(char *path, char *name)
-{
-	size_t	len1;
-	size_t	len2;
-	char	*new_path;
-
-	errno = 0;
-	if (!name || !path || !ft_strcmp(path, "/"))
-		return (ft_strjoin(path, name));
-	len1 = ft_strlen(path);
-	len2 = ft_strlen(name);
-	if ((new_path = (char *)malloc(len1 + len2 + 2)))
-	{
-		ft_memcpy(new_path, path, len1);
-		*(new_path + len1) = '/';
-		ft_memcpy(new_path + len1 + 1, name, len2);
-		*(new_path + len1 + len2 + 1) = '\0';
-	}
-	return (new_path);
 }
