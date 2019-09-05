@@ -32,3 +32,14 @@ char	*add_path(char *path, char *name)
 	}
 	return (new_path);
 }
+
+int		check_options_a(char *name, int *options)
+{
+	if (FLAG_A & *options)
+		return (1);
+	if ((FLAG_AA & *options) && (!ft_strcmp(name, ".") || !ft_strcmp(name, "..")))
+		return (0);
+	if (!(FLAG_AA & *options) && (name[0] == '.'))
+		return (0);
+	return (1);
+}

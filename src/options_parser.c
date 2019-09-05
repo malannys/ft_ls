@@ -80,7 +80,7 @@ static int	get_options(char *src, char *str, int *options)
 	while (*(++str))
 	{
 		if ((n = get_index("1AaCcfglmnoRrSTtuU@H", *str)) == -1)
-			error_managment(src, str, 1);
+			error_usage(src, str, 1);
 		*options |= (1 << n);
 		check_options(str, options);
 	}

@@ -26,7 +26,8 @@ SRCNAMES := ft_ls.c sorting.c list.c print.c error_handling.c options_parser.c c
 	type_perm.c \
 	get_maxlen.c \
 	for_long_format.c \
-	utilities.c
+	utilities.c \
+	cmp_funcs.c
 
 SRC := $(addprefix $(SRCDIR), $(SRCNAMES))
 OBJ := $(addprefix $(OBJDIR), $(SRCNAMES:.c=.o))

@@ -142,11 +142,18 @@ void	lst_join(t_node **head1, t_node **tail1, t_node **head2, t_node **tail2);
 //void	push_front(t_node **head, t_node *node);
 void	free_list(t_node **head);
 
+/*
+** Utility functions
+*/
+
 char	*add_path(char *path, char *name);
+int		check_options_a(char *name, int *options);
+
+/*
+** Sorting
+*/
 
 void	sort(t_node **head, t_node **tail, int *options);
-void	append(t_node **head, t_node **tail, t_node *tmp);
-void	lst_join(t_node **head1, t_node **tail1, t_node **head2, t_node **tail2);
 //void	insert_and_sort(t_node **head, t_node *node, int *options);
 int		cmp(t_node *node1, t_node *node2, int *options);
 int		cmp_lex(char *s1, char *s2, int rev);
@@ -157,7 +164,7 @@ int		cmp_size(off_t a, off_t b, char **name, int rev);
 ** Error handling
 */
 
-int		error_managment(char *src, char *str, int error);
+int		error_usage(char *src, char *str, int error);
 void	error(int error_status, char *name);
 void	print_errormsg(char *name);
 

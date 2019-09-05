@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-int		error_managment(char *src, char *str, int error)
+int		error_usage(char *src, char *str, int error)
 {
 	char	*s;
 

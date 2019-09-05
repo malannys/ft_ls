@@ -24,7 +24,7 @@ static void	swap(char **s1, char **s2)
 
 static int	partition(char **arr, int low, int high)
 {
-	int 	i;
+	int		i;
 	int		j;
 	char	*pivot;
 
@@ -49,7 +49,7 @@ static int	partition(char **arr, int low, int high)
 	return (j);
 }
 
-int		ft_quick_sort(char **arr, int low, int high)
+int			ft_quick_sort(char **arr, int low, int high)
 {
 	int		pivot;
 
