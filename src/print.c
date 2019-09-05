@@ -6,7 +6,7 @@
 /*   By: abartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 19:57:11 by abartole          #+#    #+#             */
-/*   Updated: 2019/09/04 21:29:52 by abartole         ###   ########.fr       */
+/*   Updated: 2019/09/05 21:00:30 by abartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	print(char *path, t_node *head, int *options)
 	if (FLAG_M & *options)
 		print_string(head);
 	else if ((FLAG_L & *options) || (FLAG_G & *options) ||
-			(FLAG_O & *options) || (FLAG_L & *options) || 
+			(FLAG_O & *options) || (FLAG_L & *options) ||
 			(FLAG_N & *options))
 		print_long(head, options);
 	else if (FLAG_ONE & *options)

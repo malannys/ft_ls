@@ -6,7 +6,7 @@
 /*   By: malannys <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 19:16:46 by malannys          #+#    #+#             */
-/*   Updated: 2019/09/04 23:56:14 by abartole         ###   ########.fr       */
+/*   Updated: 2019/09/05 21:05:53 by abartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,6 @@ int		cmp_size(off_t a, off_t b, char **name, int rev);
 
 int		error_managment(char *src, char *str, int error);
 void	error(int error_status, char *name);
-void	print_errormsg(char *func, char *name);
+void	print_errormsg(char *name);
 
 #endif

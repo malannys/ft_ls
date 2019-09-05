@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: abartole <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/04 20:56:53 by abartole          #+#    #+#             */
-/*   Updated: 2019/09/04 20:57:22 by abartole         ###   ########.fr       */
+/*   Created: 2019/09/05 21:01:53 by abartole          #+#    #+#             */
+/*   Updated: 2019/09/05 21:07:47 by abartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,11 @@ int		error_managment(char *src, char *str, int error)
 	return (0);
 }
 
-void	print_errormsg(char *func, char *name)
+void	print_errormsg(char *name)
 {
 	char	*errorbuff;
 
 	ft_putstr_fd("ft_ls: ", 2);
-	ft_putstr_fd(func, 2);
-	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(name, 2);
 	ft_putstr_fd(": ", 2);
 	if ((errorbuff = strerror(errno)))
@@ -51,13 +49,13 @@ void	error(int error_status, char *name)
 		exit(EXIT_FAILURE);
 	}
 	else if (error_status == LSTAT_FAILURE)
-		print_errormsg("lstat", name);
+		print_errormsg(name);
 	else if (error_status == READDIR_FAILURE)
-		print_errormsg("readdir", name);
+		print_errormsg(name);
 	else if (error_status == OPENDIR_FAILURE)
-		print_errormsg("opendir", name);
+		print_errormsg(name);
 	else if (error_status == CLOSEDIR_FAILURE)
-		print_errormsg("closedir", name);
+		print_errormsg(name);
 	else if (error_status == GETPWUID_FAILURE)
 		perror("ft_ls: getpwuid");
 	else if (error_status == GETGRGID_FAILURE)
