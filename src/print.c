@@ -38,7 +38,7 @@ void	print(char *path, t_node *head, int *options)
 	if (FLAG_M & *options)
 		print_string(head);
 	else if ((FLAG_L & *options) || (FLAG_G & *options) ||
-			(FLAG_O & *options) || (FLAG_L & *options) || 
+			(FLAG_O & *options) || (FLAG_L & *options) ||
 			(FLAG_N & *options))
 		print_long(head, options);
 	else if (FLAG_ONE & *options)
