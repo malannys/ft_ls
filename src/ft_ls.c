@@ -48,9 +48,10 @@ void	read_dir(char *path, t_node *node, int *options)
 	while ((dp = readdir(dirp)))
 		if (check_options_a(dp->d_name, options))
 			push_back(&head, create_node(node->path, dp->d_name, options, 0));
+	closedir(dirp);
 	if (!(FLAG_F & *options))
 		sort(&head, (head ? &head->tail : NULL), options);
-	print(path, head, options);
+	print(path, head, options, 1);
 	if (FLAG_RR & *options)
 		dir_recursive(&head, options);
 	free_list(&head);
@@ -109,7 +110,7 @@ void	read_args(int ac, char **av, int *options, int arg)
 		sort(&head_file, (head_file ? &head_file->tail : NULL), options);
 		sort(&head_dir, (head_dir ? &head_dir->tail : NULL), options);
 	}
-	print(NULL, head_file, options);
+	print(NULL, head_file, options, 0);
 	if (head_file && head_dir)
 		write(1, "\n", 1);
 	read_args_dir(arg - ac + 1, options, head_dir, head_file);

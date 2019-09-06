@@ -26,7 +26,7 @@ void	print_long(t_node *tmp, int *options)
 	}
 }
 
-void	print(char *path, t_node *head, int *options)
+void	print(char *path, t_node *head, int *options, int print_total)
 {
 	if (path && 0)
 	{
