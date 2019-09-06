@@ -6,7 +6,7 @@
 /*   By: malannys <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 19:16:46 by malannys          #+#    #+#             */
-/*   Updated: 2019/09/05 22:02:59 by malannys         ###   ########.fr       */
+/*   Updated: 2019/09/06 21:18:24 by abartole         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int		opt_parser(int ac, char **av, int *options);
 ** Printing
 */
 
-void	print_long(t_node *tmp, int *options);
+void	print_long(t_node *tmp, int *options, int print_tot);
 void	print_string(t_node *tmp);
 void	print_default(t_node *head);
 void	print_column(t_node *tmp);
