@@ -34,9 +34,9 @@ static int	partition(char **arr, int low, int high)
 		return (-1);
 	while (i < j)
 	{
-		while (ft_strcmp(arr[i], pivot) < 0)
+		while ((ft_strcmp(arr[i], pivot) <= 0) && (i < high))
 			i++;
-		while (ft_strcmp(arr[j], pivot) > 0)
+		while ((ft_strcmp(arr[j], pivot) >= 0) && (j > low))
 			j--;
 		if (i >= j)
 		{

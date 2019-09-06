@@ -131,7 +131,8 @@ int		main(int ac, char **av)
 	}
 	else
 	{
-		ft_quick_sort(&av[i], 0, ac - i - 1);
+		if ((ft_quick_sort(&av[i], 0, ac - i - 1)) == -1)
+			error(MALLOC_FAILURE, NULL);
 		read_args(ac, av, &options, i);
 	}
 	return (0);
